@@ -5,7 +5,6 @@
 #         os.remove(f)
 #         print("deleted", f)
 
-!pip install feedparser requests yfinance
 
 import os
 import json
