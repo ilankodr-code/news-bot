@@ -33,7 +33,7 @@ TITLE_MEMORY_FILE = "sent_titles.json"
 MAX_NEWS_AGE_HOURS = 24
 BOT_START_TIME = datetime.now(timezone.utc)
 
-US_TICKERS = ["NVDA", "AVGO", "AAPL", "GOOG", "MSFT"]
+US_TICKERS = ["NVDA", "AVGO", "AAPL", "GOOG", "MSFT", "GEV", "GE"]
 
 US_COMPANIES = {
     "NVDA": ["nvidia", "nvda"],
@@ -41,6 +41,8 @@ US_COMPANIES = {
     "AAPL": ["apple", "aapl"],
     "GOOG": ["google", "alphabet", "goog"],
     "MSFT": ["microsoft", "msft"],
+    "GE":   ["general electric co", "ge"].
+    "GEV":  ["ge vernova inc", "gev"]
 }
 
 IL_COMPANIES = {
