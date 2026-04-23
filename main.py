@@ -41,7 +41,7 @@ US_COMPANIES = {
     "AAPL": ["apple", "aapl"],
     "GOOG": ["google", "alphabet", "goog"],
     "MSFT": ["microsoft", "msft"],
-    "GE":   ["general electric co", "ge"].
+    "GE":   ["general electric co", "ge"],
     "GEV":  ["ge vernova inc", "gev"]
 }
 
