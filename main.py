@@ -31,6 +31,7 @@ SENT_FILE = "sent_links.json"
 TITLE_MEMORY_FILE = "sent_titles.json"
 
 MAX_NEWS_AGE_HOURS = 24
+BOT_START_TIME = datetime.now(timezone.utc)
 
 US_TICKERS = ["NVDA", "AVGO", "AAPL", "GOOG", "MSFT"]
 
@@ -357,9 +358,18 @@ def is_recent_entry(entry, max_age_hours=24):
     dt = parse_entry_datetime(entry)
     if not dt:
         return False
+
     now = datetime.now(timezone.utc)
-    age = now - dt
-    return timedelta(hours=0) <= age <= timedelta(hours=max_age_hours)
+
+    # תנאי 1: בתוך 24 שעות
+    if not (timedelta(hours=0) <= (now - dt) <= timedelta(hours=max_age_hours)):
+        return False
+
+    # תנאי 2: רק אחרי שהבוט עלה
+    if dt < BOT_START_TIME:
+        return False
+
+    return True
 
 # =========================
 # רלוונטיות חברה
