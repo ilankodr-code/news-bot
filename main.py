@@ -5,7 +5,6 @@
 #         os.remove(f)
 #         print("deleted", f)
 
-!pip install feedparser requests yfinance
 
 import os
 import json
@@ -26,7 +25,7 @@ from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 # =========================
 BOT_TOKEN = "8794578521:AAFcYLd_x1b1G2X5c6ipDi7qqqJMCHO3hUU"
 CHAT_ID = "889613914"
-CHECK_EVERY_SECONDS = 40
+CHECK_EVERY_SECONDS = 300
 
 SENT_FILE = "sent_links.json"
 TITLE_MEMORY_FILE = "sent_titles.json"
@@ -662,6 +661,8 @@ def scan_once():
         unique_items.append(item)
 
     print("Total new items found:", len(unique_items))
+    MAX_MESSAGES_PER_SCAN = 5
+    unique_items = unique_items[:MAX_MESSAGES_PER_SCAN]
 
     quotes_cache = {}
 
@@ -698,10 +699,8 @@ def scan_once():
 # ריצה רציפה
 # =========================
 def run_forever():
-    send_telegram_with_image(
-        "✅ הבוט עלה ומתחיל לעקוב אחרי חדשות מ-24 השעות האחרונות.",
-        "NVDA"
-    )
+    print("Bot started and running.")
+    
     while True:
         try:
             scan_once()
