@@ -678,23 +678,36 @@ def scan_once():
     seen_local = set()
     unique_items = []
 
-for item in all_items:
+        print("MAYA error:", e)
 
-    full_text = f"{item['title']} {item.get('summary', '')}"
+    try:
+        israeli_site_items = get_israeli_site_news()
+        all_items.extend(israeli_site_items)
+        print("After Israeli sites:", len(all_items))
+    except Exception as e:
+        print("Israeli sites error:", e)
 
-    if is_banks_macro(full_text):
-        item["ticker"] = "BANKS"
+    seen_local = set()
+    unique_items = []
 
-    normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
-    normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
+        for item in all_items:
 
-    key = (item["ticker"], normalized_title)
+        full_text = f"{item['title']} {item.get('summary', '')}"
 
-    if key in seen_local:
-        continue
+        if is_banks_macro(full_text):
+            item["ticker"] = "BANKS"
 
-    seen_local.add(key)
-    unique_items.append(item)
+        normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
+        normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
+
+        key = (item["ticker"], normalized_title)
+
+        if key in seen_local:
+            continue
+
+        seen_local.add(key)
+        unique_items.append(item)
+
 
     print("Total new items found:", len(unique_items))
     MAX_MESSAGES_PER_SCAN = 5
