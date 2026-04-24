@@ -34,6 +34,7 @@ MAX_NEWS_AGE_HOURS = 24
 BOT_START_TIME = datetime.now(timezone.utc)
 
 US_TICKERS = ["NVDA", "AVGO", "AAPL", "GOOG", "MSFT", "GEV", "GE"]
+SPECIAL_TICKERS = ["BANKS"]
 
 US_COMPANIES = {
     "NVDA": ["nvidia", "nvda"],
@@ -99,6 +100,17 @@ IL_COMPANIES = {
         "aliases": ["מליסרון", "Melisron"]
     },
 }
+
+BANKS_KEYWORDS = [
+    "בנק ישראל",
+    "בנקים",
+    "מדד הבנקים",
+    "ת\"א בנקים",
+    "ביטוח",
+    "חברות ביטוח",
+    "פיננסים",
+    "financials"
+]
 
 ISRAEL_TICKERS = set(IL_COMPANIES.keys())
 
@@ -402,6 +414,10 @@ def detect_category(title, summary=""):
                 return category
     return "General"
 
+def is_banks_macro(text):
+    text = strip_html(text).lower()
+    return any(keyword.lower() in text for keyword in BANKS_KEYWORDS)
+
 # =========================
 # מחיר מניה
 # =========================
@@ -663,6 +679,12 @@ def scan_once():
     unique_items = []
 
     for item in all_items:
+        
+        full_text = f"{item['title']} {item.get('summary', '')}"
+
+    if is_banks_macro(full_text):
+    item["ticker"] = "BANKS"
+    
         normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
         normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
 
