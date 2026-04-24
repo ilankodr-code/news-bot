@@ -112,6 +112,19 @@ BANKS_KEYWORDS = [
     "financials"
 ]
 
+MARKET_KEYWORDS = [
+    "המסחר ננעל",
+    "יום המסחר",
+    "ת\"א 35",
+    "ת\"א 125",
+    "מדד",
+    "בורסה",
+    "שוק",
+    "המסחר נפתח",
+    "closing bell",
+    "market close"
+]
+
 ISRAEL_TICKERS = set(IL_COMPANIES.keys())
 
 # טיקרים ל-yfinance עבור ישראל
@@ -417,7 +430,11 @@ def detect_category(title, summary=""):
 def is_banks_macro(text):
     text = strip_html(text).lower()
     return any(keyword.lower() in text for keyword in BANKS_KEYWORDS)
-
+    
+def is_market_news(text):
+    text = strip_html(text).lower()
+    return any(keyword.lower() in text for keyword in MARKET_KEYWORDS)
+    
 # =========================
 # מחיר מניה
 # =========================
@@ -682,10 +699,13 @@ def scan_once():
     unique_items = []
 
     for item in all_items:
-        full_text = f"{item['title']} {item.get('summary', '')}"
+    full_text = f"{item['title']} {item.get('summary', '')}"
 
-        if is_banks_macro(full_text):
-            item["ticker"] = "BANKS"
+    if is_market_news(full_text):
+    item["ticker"] = "MARKET"
+
+    elif is_banks_macro(full_text):
+    item["ticker"] = "BANKS"
 
         normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
         normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
