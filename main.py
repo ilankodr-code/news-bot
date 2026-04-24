@@ -702,21 +702,21 @@ def scan_once():
     full_text = f"{item['title']} {item.get('summary', '')}"
 
     if is_market_news(full_text):
-    item["ticker"] = "MARKET"
+        item["ticker"] = "MARKET"
 
     elif is_banks_macro(full_text):
-    item["ticker"] = "BANKS"
+        item["ticker"] = "BANKS"
 
-        normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
-        normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
+    normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
+    normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
 
-        key = (item["ticker"], normalized_title)
+    key = (item["ticker"], normalized_title)
 
-        if key in seen_local:
-            continue
+    if key in seen_local:
+        continue
 
-        seen_local.add(key)
-        unique_items.append(item)
+    seen_local.add(key)
+    unique_items.append(item)
 
     print("Total new items found:", len(unique_items))
 
