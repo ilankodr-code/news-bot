@@ -678,23 +678,23 @@ def scan_once():
     seen_local = set()
     unique_items = []
 
-    for item in all_items:
-        
-        full_text = f"{item['title']} {item.get('summary', '')}"
+for item in all_items:
+
+    full_text = f"{item['title']} {item.get('summary', '')}"
 
     if is_banks_macro(full_text):
-    item["ticker"] = "BANKS"
-    
-        normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
-        normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
+        item["ticker"] = "BANKS"
 
-        key = (item["ticker"], normalized_title)
+    normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
+    normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
 
-        if key in seen_local:
-            continue
+    key = (item["ticker"], normalized_title)
 
-        seen_local.add(key)
-        unique_items.append(item)
+    if key in seen_local:
+        continue
+
+    seen_local.add(key)
+    unique_items.append(item)
 
     print("Total new items found:", len(unique_items))
     MAX_MESSAGES_PER_SCAN = 5
