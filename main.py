@@ -662,15 +662,17 @@ def scan_once():
     seen_local = set()
     unique_items = []
 
-    for item in all_items:
-        key = (
-            item["ticker"],
-            re.sub(r"\s+", " ", item["title"].strip().lower())
-        )
-        if key in seen_local:
-            continue
-        seen_local.add(key)
-        unique_items.append(item)
+ for item in all_items:
+    normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
+    normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
+
+    key = (item["ticker"], normalized_title)
+
+    if key in seen_local:
+        continue
+
+    seen_local.add(key)
+    unique_items.append(item)
 
     print("Total new items found:", len(unique_items))
     MAX_MESSAGES_PER_SCAN = 5
