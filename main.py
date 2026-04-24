@@ -654,13 +654,15 @@ def get_israeli_site_news():
 def scan_once():
     all_items = []
 
+    # US
     for ticker in US_TICKERS:
         try:
-            all_items.extend(get_yahoo_news_for_ticker(ticker))
+            items = get_yahoo_news_for_ticker(ticker)
+            all_items.extend(items)
         except Exception as e:
-            print(f"Yahoo error for {ticker}: {e}")
-        time.sleep(0.25)
+            print(f"Yahoo error for {ticker}:", e)
 
+    # MAYA
     try:
         maya_items = get_maya_news()
         all_items.extend(maya_items)
@@ -668,6 +670,7 @@ def scan_once():
     except Exception as e:
         print("MAYA error:", e)
 
+    # Israeli sites
     try:
         israeli_site_items = get_israeli_site_news()
         all_items.extend(israeli_site_items)
@@ -678,20 +681,7 @@ def scan_once():
     seen_local = set()
     unique_items = []
 
-        print("MAYA error:", e)
-
-    try:
-        israeli_site_items = get_israeli_site_news()
-        all_items.extend(israeli_site_items)
-        print("After Israeli sites:", len(all_items))
-    except Exception as e:
-        print("Israeli sites error:", e)
-
-    seen_local = set()
-    unique_items = []
-
-        for item in all_items:
-
+    for item in all_items:
         full_text = f"{item['title']} {item.get('summary', '')}"
 
         if is_banks_macro(full_text):
@@ -708,8 +698,8 @@ def scan_once():
         seen_local.add(key)
         unique_items.append(item)
 
-
     print("Total new items found:", len(unique_items))
+
     MAX_MESSAGES_PER_SCAN = 5
     unique_items = unique_items[:MAX_MESSAGES_PER_SCAN]
 
@@ -719,9 +709,9 @@ def scan_once():
         try:
             category = detect_category(item["title"], item.get("summary", ""))
 
-            quote = None
             if item["ticker"] not in quotes_cache:
                 quotes_cache[item["ticker"]] = get_stock_quote(item["ticker"])
+
             quote = quotes_cache[item["ticker"]]
 
             msg = format_msg(
@@ -735,7 +725,6 @@ def scan_once():
             )
 
             send_telegram_with_image(msg, item["ticker"])
-            time.sleep(1)
 
         except Exception as e:
             print("Send error:", e)
@@ -743,7 +732,6 @@ def scan_once():
     save_sent(sent_links)
     save_sent_titles(sent_titles)
     print("Scan finished.")
-
 # =========================
 # ריצה רציפה
 # =========================
