@@ -188,6 +188,20 @@ HEADERS = {
     "Accept-Language": "he-IL,he;q=0.9,en-US;q=0.8,en;q=0.7"
 }
 
+POSITIVE_KEYWORDS = [
+    "beats", "surges", "jumps", "rises", "record", "upgrade", "raises target",
+    "strong demand", "wins", "contract", "growth", "profit rises",
+    "מזנקת", "עולה", "עליות", "זכתה", "חוזה", "דוחות חזקים",
+    "העלאת המלצה", "מחיר יעד גבוה", "רווח עלה", "צמיחה"
+]
+
+NEGATIVE_KEYWORDS = [
+    "misses", "falls", "drops", "plunges", "downgrade", "cuts target",
+    "weak demand", "lawsuit", "investigation", "warning", "profit falls",
+    "נופלת", "יורדת", "נחתכת", "ירידות", "אזהרת רווח",
+    "הורדת המלצה", "תביעה", "חקירה", "רווח ירד", "חולשה"
+]
+
 CATEGORY_KEYWORDS = {
     "Earnings": [
         "earnings", "results", "quarter", "revenue", "profit", "guidance",
@@ -418,6 +432,20 @@ def company_is_relevant_israel(ticker, text):
         return True
 
     return False
+    
+def detect_signal(title, summary=""):
+    text = f"{title} {summary}".lower()
+
+    positive = any(word.lower() in text for word in POSITIVE_KEYWORDS)
+    negative = any(word.lower() in text for word in NEGATIVE_KEYWORDS)
+
+    if positive and not negative:
+        return "BUY 🟢"
+
+    if negative and not positive:
+        return "SELL 🔴"
+
+    return "HOLD ⚪"
 
 def detect_category(title, summary=""):
     text = f"{title} {summary}".lower()
@@ -430,6 +458,16 @@ def detect_category(title, summary=""):
 def is_banks_macro(text):
     text = strip_html(text).lower()
     return any(keyword.lower() in text for keyword in BANKS_KEYWORDS)
+
+def detect_israeli_ticker(text):
+    text = strip_html(text).lower()
+
+    for ticker, data in IL_COMPANIES.items():
+        for alias in data.get("aliases", []):
+            if alias.lower() in text:
+                return ticker
+
+    return None
     
 def is_market_news(text):
     text = strip_html(text).lower()
@@ -468,15 +506,15 @@ def get_stock_quote(ticker):
 # =========================
 # עיצוב הודעה
 # =========================
-def format_msg(ticker, title, published, link, source="", category="General", quote=None):
+def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None):
     flag = get_flag(ticker)
     short_title = html.escape(shorten(title, 160))
     safe_link = html.escape(link, quote=True)
     safe_source = html.escape(source) if source else ""
-    safe_category = html.escape(category)
+    safe_signal = html.escape(signal)
 
     source_line = f"\n🏷️ <b>Source:</b> {safe_source}" if safe_source else ""
-    category_line = f"\n📂 <b>Category:</b> {safe_category}"
+    signal_line = f"\n📊 <b>Signal:</b> {safe_signal}"
 
     quote_line = ""
     if quote:
@@ -490,7 +528,7 @@ def format_msg(ticker, title, published, link, source="", category="General", qu
     return (
         f"🚨 <b>{flag} {ticker}</b>\n\n"
         f"📰 <b>{short_title}</b>"
-        f"{category_line}\n"
+        f"{signal_line}\n"
         f"🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
         f"{quote_line}\n"
@@ -507,7 +545,7 @@ def get_yahoo_news_for_ticker(ticker):
 
     print(f"Checking Yahoo for {ticker} - entries: {len(feed.entries)}")
 
-    for entry in feed.entries[:12]:
+    for entry in feed.entries[:9]:
         if not is_recent_entry(entry, MAX_NEWS_AGE_HOURS):
             continue
 
@@ -726,7 +764,7 @@ def scan_once():
 
     for item in unique_items:
         try:
-            category = detect_category(item["title"], item.get("summary", ""))
+            signal = detect_signal(item["title"], item.get("summary", ""))
 
             if item["ticker"] not in quotes_cache:
                 quotes_cache[item["ticker"]] = get_stock_quote(item["ticker"])
@@ -739,7 +777,7 @@ def scan_once():
                 published=item["time"],
                 link=item["link"],
                 source=item.get("source", ""),
-                category=category,
+                signal=signal,
                 quote=quote
             )
 
