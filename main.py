@@ -5,7 +5,6 @@
 #         os.remove(f)
 #         print("deleted", f)
 
-
 import os
 import json
 import time
@@ -562,7 +561,6 @@ for entry in feed.entries[:9]:
         continue
 
     full_text = f"{summary} ||TITLE|| {title}"
-
     if not company_is_relevant_us(ticker, full_text):
         continue
 
