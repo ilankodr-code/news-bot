@@ -417,8 +417,12 @@ def is_recent_entry(entry, max_age_hours=24):
 # =========================
 def company_is_relevant_us(ticker, text):
     text = strip_html(text).lower()
+    title = text.split("||TITLE||")[-1] if "||TITLE||" in text else text
+
     aliases = US_COMPANIES.get(ticker, [])
-    return any(alias.lower() in text for alias in aliases)
+
+    # חייב להופיע אחד מהשמות בכותרת עצמה
+    return any(alias.lower() in title for alias in aliases)
 
 def company_is_relevant_israel(ticker, text):
     text = strip_html(text).lower()
@@ -557,9 +561,9 @@ def get_yahoo_news_for_ticker(ticker):
         if not title or not link:
             continue
 
-        full_text = f"{title} {summary}"
+    full_text = f"{title} {summary}"
         if not company_is_relevant_us(ticker, full_text):
-            continue
+        continue
 
         uid = make_id(ticker, title, link)
         title_uid = make_title_id(ticker, title)
