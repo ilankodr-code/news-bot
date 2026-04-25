@@ -549,17 +549,22 @@ def get_yahoo_news_for_ticker(ticker):
 
     print(f"Checking Yahoo for {ticker} - entries: {len(feed.entries)}")
 
-    for entry in feed.entries[:9]:
-        if not is_recent_entry(entry, MAX_NEWS_AGE_HOURS):
-            continue
+for entry in feed.entries[:9]:
+    if not is_recent_entry(entry, MAX_NEWS_AGE_HOURS):
+        continue
 
-        title = getattr(entry, "title", "").strip()
-        link = getattr(entry, "link", "").strip()
-        summary = getattr(entry, "summary", "").strip()
-        published = normalize_time(entry)
+    title = getattr(entry, "title", "").strip()
+    link = getattr(entry, "link", "").strip()
+    summary = getattr(entry, "summary", "").strip()
+    published = normalize_time(entry)
 
-        if not title or not link:
-            continue
+    if not title or not link:
+        continue
+
+    full_text = f"{summary} ||TITLE|| {title}"
+
+    if not company_is_relevant_us(ticker, full_text):
+        continue
 
     full_text = f"{title} {summary}"
         if not company_is_relevant_us(ticker, full_text):
