@@ -565,14 +565,6 @@ def get_yahoo_news_for_ticker(ticker):
         if not company_is_relevant_us(ticker, full_text):
             continue
 
-    full_text = f"{summary} ||TITLE|| {title}"
-    if not company_is_relevant_us(ticker, full_text):
-        continue
-
-    full_text = f"{title} {summary}"
-        if not company_is_relevant_us(ticker, full_text):
-        continue
-
         uid = make_id(ticker, title, link)
         title_uid = make_title_id(ticker, title)
 
