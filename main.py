@@ -379,9 +379,11 @@ def get_flag(ticker):
     return "🇮🇱" if ticker in ISRAEL_TICKERS else "🇺🇸"
 
 def clean_time_str(published):
-    if not published:
-        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return str(published)
+    try:
+        dt = datetime.strptime(published, "%a, %d %b %Y %H:%M:%S %z")
+        return dt.strftime("%d-%m-%Y")
+    except:
+        return ""
 
 # =========================
 # זמן / תאריך
@@ -494,12 +496,15 @@ def detect_multiple_tickers(text):
     text = strip_html(text).lower()
     found = []
 
-    # US
+    # US - מדויק, כדי ש-GE לא ייתפס בתוך מילים כמו mortgage
     for ticker, aliases in US_COMPANIES.items():
-        if any(alias.lower() in text for alias in aliases):
-            found.append(ticker)
+        for alias in aliases:
+            pattern = r"\b" + re.escape(alias.lower()) + r"\b"
+            if re.search(pattern, text):
+                found.append(ticker)
+                break
 
-    # ישראל
+    # Israel
     for ticker, data in IL_COMPANIES.items():
         if any(alias.lower() in text for alias in data.get("aliases", [])):
             found.append(ticker)
