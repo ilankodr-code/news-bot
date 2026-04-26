@@ -188,19 +188,37 @@ HEADERS = {
 }
 
 POSITIVE_KEYWORDS = [
-    "beats", "surges", "jumps", "rises", "record", "upgrade", "raises target",
-    "strong demand", "wins", "contract", "growth", "profit rises",
-    "מזנקת", "עולה", "עליות", "זכתה", "חוזה", "דוחות חזקים",
-    "העלאת המלצה", "מחיר יעד גבוה", "רווח עלה", "צמיחה"
+    # English
+    "upgrade", "upgraded", "raises price target", "raised price target",
+    "price target raised", "higher price target", "outperform", "buy rating",
+    "strong buy", "beats estimates", "beats expectations", "record revenue",
+    "profit rises", "revenue rises", "guidance raised", "raises guidance",
+    "contract win", "wins contract", "new contract", "surges", "jumps",
+
+    # Hebrew
+    "העלאת מחיר יעד", "מחיר יעד גבוה יותר", "העלה מחיר יעד",
+    "העלאת המלצה", "המלצת קנייה", "קנייה", "תשואת יתר",
+    "דוחות חזקים", "עקפה את התחזיות", "מעל התחזיות",
+    "רווח עלה", "הכנסות עלו", "מעלה תחזית", "זכתה בחוזה",
+    "חוזה חדש", "מזנקת", "עולה"
 ]
+
 
 NEGATIVE_KEYWORDS = [
-    "misses", "falls", "drops", "plunges", "downgrade", "cuts target",
-    "weak demand", "lawsuit", "investigation", "warning", "profit falls",
-    "נופלת", "יורדת", "נחתכת", "ירידות", "אזהרת רווח",
-    "הורדת המלצה", "תביעה", "חקירה", "רווח ירד", "חולשה"
-]
+    # English
+    "downgrade", "downgraded", "cuts price target", "cut price target",
+    "price target cut", "lower price target", "underperform", "sell rating",
+    "misses estimates", "misses expectations", "profit falls", "revenue falls",
+    "guidance cut", "cuts guidance", "weak guidance", "lawsuit",
+    "investigation", "warning", "plunges", "drops",
 
+    # Hebrew
+    "הורדת מחיר יעד", "מחיר יעד נמוך יותר", "הוריד מחיר יעד",
+    "הורדת המלצה", "המלצת מכירה", "מכירה", "תשואת חסר",
+    "פספסה את התחזיות", "מתחת לתחזיות", "רווח ירד", "הכנסות ירדו",
+    "חותכת תחזית", "אזהרת רווח", "תביעה", "חקירה",
+    "נחתכת", "נופלת", "יורדת"
+]
 CATEGORY_KEYWORDS = {
     "Earnings": [
         "earnings", "results", "quarter", "revenue", "profit", "guidance",
@@ -633,6 +651,33 @@ def get_maya_news():
     print("MAYA matched items:", len(items))
     return items
 
+def get_globes_news():
+    url = "https://www.globes.co.il/rss/news.xml"
+    feed = parse_feed(url)
+    items = []
+
+    for entry in feed.entries[:10]:
+        if not is_recent_entry(entry, MAX_NEWS_AGE_HOURS):
+            continue
+
+        title = getattr(entry, "title", "").strip()
+        link = getattr(entry, "link", "").strip()
+        summary = getattr(entry, "summary", "").strip()
+        published = normalize_time(entry)
+
+        if not title or not link:
+            continue
+
+        items.append({
+            "ticker": "IL_MARKET",
+            "title": title,
+            "summary": summary,
+            "time": published,
+            "link": link,
+            "source": "Globes"
+        })
+
+    return items
 # =========================
 # Google News RSS
 # =========================
@@ -728,6 +773,14 @@ def scan_once():
         print("After MAYA:", len(all_items))
     except Exception as e:
         print("MAYA error:", e)
+        
+    # Globes
+    try:
+        globes_items = get_globes_news()
+        all_items.extend(globes_items)
+        print("After Globes:", len(all_items))
+    except Exception as e:
+        print("Globes error:", e)
 
     # Israeli sites
     try:
