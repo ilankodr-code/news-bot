@@ -562,10 +562,45 @@ def get_stock_quote(ticker):
         print(f"yfinance error for {ticker}: {e}")
         return None
 
+def get_price_target(ticker, quote=None):
+    api_key = os.getenv("FINNHUB_API_KEY")
+    if not api_key:
+        return None
+
+    url = f"https://finnhub.io/api/v1/stock/price-target?symbol={ticker}&token={api_key}"
+
+    try:
+        res = requests.get(url, timeout=5)
+        data = res.json()
+
+        mean = data.get("targetMean")
+        high = data.get("targetHigh")
+        low = data.get("targetLow")
+
+        upside = None
+        if quote and mean:
+            price = quote.get("price")
+            if price:
+                price = float(price)
+                upside = ((float(mean) - price) / price) * 100
+
+        if mean:
+            return {
+                "mean": mean,
+                "high": high,
+                "low": low,
+                "upside": upside
+            }
+
+    except Exception as e:
+        print("Price target error:", e)
+
+    return None
+
 # =========================
 # עיצוב הודעה
 # =========================
-def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, tickers=None, reasons=None):
+def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, price_target=None, tickers=None, reasons=None):
     flag = get_flag(ticker)
 
     if tickers:
@@ -585,6 +620,17 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         reasons_line = f"\n🧠 <i>{html.escape(reasons_str)}</i>"
 
     quote_line = ""
+
+    target_line = ""
+    if price_target:
+        mean = price_target.get("mean")
+        upside = price_target.get("upside")
+
+        if mean and upside is not None:
+            target_line = f"🎯 <b>Target:</b> {mean} | Upside: {upside:+.1f}%"
+        elif mean:
+            target_line = f"🎯 <b>Target:</b> {mean}"
+
     if quote:
         price = quote.get("price")
         change_pct = quote.get("change_pct")
@@ -600,7 +646,8 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         f"{reasons_line}\n"
         f"🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
-        f"{quote_line}\n"
+        f"{quote_line}"
+        f"\n{target_line}\n" if target_line else ""
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
     )
 # =========================
@@ -881,6 +928,8 @@ def scan_once():
 
             quote = quotes_cache[item["ticker"]]
 
+            price_target = get_price_target(item["ticker"], quote)
+
             msg = format_msg(
                 ticker=item["ticker"],
                 title=item["title"],
@@ -890,6 +939,7 @@ def scan_once():
                 signal=signal,
                 reasons=reasons,
                 quote=quote,
+                price_target=price_target,
                 tickers=item.get("tickers")
             )
 
