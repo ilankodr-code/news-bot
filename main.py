@@ -457,13 +457,29 @@ def company_is_relevant_israel(ticker, text):
 def detect_signal(title, summary=""):
     text = f"{title} {summary}".lower()
 
-    positive = any(word.lower() in text for word in POSITIVE_KEYWORDS)
-    negative = any(word.lower() in text for word in NEGATIVE_KEYWORDS)
+    positive_score = 0
+    negative_score = 0
 
-    if positive and not negative:
+    for word in POSITIVE_KEYWORDS:
+        if word.lower() in text:
+            positive_score += 1
+
+    for word in NEGATIVE_KEYWORDS:
+        if word.lower() in text:
+            negative_score += 1
+
+    score = positive_score - negative_score
+
+    if score >= 2:
+        return "Strong BUY 🟢🔥"
+
+    if score == 1:
         return "BUY 🟢"
 
-    if negative and not positive:
+    if score <= -2:
+        return "Strong SELL 🔴🔥"
+
+    if score == -1:
         return "SELL 🔴"
 
     return "HOLD ⚪"
