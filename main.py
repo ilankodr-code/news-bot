@@ -47,56 +47,56 @@ US_COMPANIES = {
 
 IL_COMPANIES = {
     "LUMI": {
-        "queries": ['"בנק לאומי"', '"Bank Leumi"'],
-        "aliases": ["בנק לאומי", "Bank Leumi", "Leumi"]
+        "queries": ['"בנק לאומי"', '"לאומי"', '"Bank Leumi"', '"Leumi"'],
+        "aliases": ["בנק לאומי", "לאומי", "לאומי למשכנתאות", "Bank Leumi", "Leumi"]
     },
     "POLI": {
-        "queries": ['"בנק הפועלים"', '"Bank Hapoalim"'],
-        "aliases": ["בנק הפועלים", "Bank Hapoalim", "Hapoalim"]
+        "queries": ['"בנק הפועלים"', '"פועלים"', '"Bank Hapoalim"', '"Hapoalim"'],
+        "aliases": ["בנק הפועלים", "הפועלים", "פועלים", "Bank Hapoalim", "Hapoalim"]
     },
     "HARL": {
-        "queries": ['"הראל השקעות"', '"Harel Insurance"', '"Harel"'],
-        "aliases": ["הראל השקעות", "Harel Insurance", "Harel"]
+        "queries": ['"הראל"', '"הראל השקעות"', '"הראל ביטוח"', '"Harel"'],
+        "aliases": ["הראל", "הראל השקעות", "הראל ביטוח", "קבוצת הראל", "Harel"]
     },
     "ESLT": {
-        "queries": ['"אלביט מערכות"', '"Elbit Systems"'],
-        "aliases": ["אלביט מערכות", "Elbit Systems", "Elbit"]
+        "queries": ['"אלביט"', '"אלביט מערכות"', '"Elbit"', '"Elbit Systems"'],
+        "aliases": ["אלביט", "אלביט מערכות", "אלביט סיסטמס", "Elbit", "Elbit Systems"]
     },
     "DLEKG": {
-        "queries": ['"דלק קבוצה"', '"קבוצת דלק"', '"Delek Group"'],
-        "aliases": ["דלק קבוצה", "קבוצת דלק", "Delek Group", "דלק"]
+        "queries": ['"דלק"', '"קבוצת דלק"', '"דלק קבוצה"', '"Delek Group"'],
+        "aliases": ["דלק", "קבוצת דלק", "דלק קבוצה", "דלק גרופ", "Delek Group"]
     },
     "PHOE": {
-        "queries": ['"הפניקס"', '"Phoenix"'],
-        "aliases": ["הפניקס", "Phoenix"]
+        "queries": ['"הפניקס"', '"פניקס"', '"קבוצת הפניקס"', '"הפניקס השקעות"', '"Phoenix"', '"Phoenix Holdings"'],
+        "aliases": ["הפניקס", "פניקס", "קבוצת הפניקס", "הפניקס השקעות", "הפניקס ביטוח", "Phoenix", "Phoenix Holdings"]
     },
     "MZTF": {
-        "queries": ['"מזרחי טפחות"', '"Mizrahi Tefahot"'],
-        "aliases": ["מזרחי טפחות", "Mizrahi Tefahot"]
+        "queries": ['"מזרחי"', '"מזרחי טפחות"', '"בנק מזרחי"', '"Mizrahi Tefahot"'],
+        "aliases": ["מזרחי", "מזרחי טפחות", "מזרחי-טפחות", "בנק מזרחי", "בנק מזרחי טפחות", "Mizrahi Tefahot"]
     },
     "BEZQ": {
         "queries": ['"בזק"', '"Bezeq"'],
-        "aliases": ["בזק", "Bezeq"]
+        "aliases": ["בזק", "קבוצת בזק", "Bezeq"]
     },
     "PAZ": {
-        "queries": ['"פז אנרגיה"', '"Paz"'],
-        "aliases": ["פז אנרגיה", "Paz"]
+        "queries": ['"פז"', '"פז אנרגיה"', '"Paz"'],
+        "aliases": ["פז", "פז אנרגיה", "קבוצת פז", "Paz"]
     },
     "AZRG": {
-        "queries": ['"קבוצת עזריאלי"', '"Azrieli"'],
-        "aliases": ["קבוצת עזריאלי", "Azrieli"]
+        "queries": ['"עזריאלי"', '"קבוצת עזריאלי"', '"Azrieli"'],
+        "aliases": ["עזריאלי", "קבוצת עזריאלי", "קניוני עזריאלי", "Azrieli"]
     },
     "FIBI": {
-        "queries": ['"בנק הבינלאומי"', '"FIBI"', '"First International Bank"'],
-        "aliases": ["בנק הבינלאומי", "FIBI", "First International Bank"]
+        "queries": ['"הבינלאומי"', '"בנק הבינלאומי"', '"פיבי"', '"FIBI"', '"First International Bank"'],
+        "aliases": ["הבינלאומי", "בנק הבינלאומי", "הבנק הבינלאומי", "פיבי", "FIBI", "First International Bank"]
     },
     "TEVA": {
-        "queries": ['"טבע"', '"Teva"'],
-        "aliases": ["טבע", "Teva"]
+        "queries": ['"טבע"', '"טבע תעשיות"', '"Teva"'],
+        "aliases": ["טבע", "טבע תעשיות", "טבע תעשיות פרמצבטיות", "Teva"]
     },
     "MLSR": {
         "queries": ['"מליסרון"', '"Melisron"'],
-        "aliases": ["מליסרון", "Melisron"]
+        "aliases": ["מליסרון", "קבוצת מליסרון", "Melisron"]
     },
 }
 
@@ -167,19 +167,19 @@ COMPANY_IMAGES = {
 }
 
 STRICT_COMPANY_PATTERNS = {
-    "LUMI": [r"בנק\s+לאומי", r"bank\s+leumi", r"\bleumi\b"],
-    "POLI": [r"בנק\s+הפועלים", r"bank\s+hapoalim", r"\bhapoalim\b"],
-    "HARL": [r"הראל\s+השקעות", r"harel\s+insurance", r"\bharel\b"],
-    "ESLT": [r"אלביט\s+מערכות", r"elbit\s+systems", r"\belbit\b"],
-    "DLEKG": [r"דלק\s+קבוצה", r"קבוצת\s+דלק", r"delek\s+group"],
-    "PHOE": [r"הפניקס", r"\bphoenix\b"],
-    "MZTF": [r"מזרחי\s*טפחות", r"mizrahi\s+tefahot"],
-    "BEZQ": [r"\bבזק\b", r"\bbezeq\b"],
-    "PAZ": [r"פז\s+אנרגיה", r"\bpaz\b"],
-    "AZRG": [r"קבוצת\s+עזריאלי", r"\bazrieli\b"],
-    "FIBI": [r"בנק\s+הבינלאומי", r"\bfibi\b", r"first\s+international\s+bank"],
-    "TEVA": [r"\bטבע\b", r"\bteva\b"],
-    "MLSR": [r"\bמליסרון\b", r"\bmelisron\b"],
+    "LUMI": [r"בנק\s+לאומי", r"\bלאומי\b", r"bank\s+leumi", r"\bleumi\b"],
+    "POLI": [r"בנק\s+הפועלים", r"\bהפועלים\b", r"\bפועלים\b", r"bank\s+hapoalim", r"\bhapoalim\b"],
+    "HARL": [r"\bהראל\b", r"הראל\s+השקעות", r"הראל\s+ביטוח", r"קבוצת\s+הראל", r"\bharel\b"],
+    "ESLT": [r"\bאלביט\b", r"אלביט\s+מערכות", r"elbit\s+systems", r"\belbit\b"],
+    "DLEKG": [r"\bדלק\b", r"דלק\s+קבוצה", r"קבוצת\s+דלק", r"delek\s+group"],
+    "PHOE": [r"\bהפניקס\b", r"\bפניקס\b", r"קבוצת\s+הפניקס", r"הפניקס\s+השקעות", r"הפניקס\s+ביטוח", r"\bphoenix\b", r"phoenix\s+holdings"],
+    "MZTF": [r"\bמזרחי\b", r"מזרחי\s*טפחות", r"בנק\s+מזרחי", r"mizrahi\s+tefahot"],
+    "BEZQ": [r"\bבזק\b", r"קבוצת\s+בזק", r"\bbezeq\b"],
+    "PAZ": [r"\bפז\b", r"פז\s+אנרגיה", r"קבוצת\s+פז", r"\bpaz\b"],
+    "AZRG": [r"\bעזריאלי\b", r"קבוצת\s+עזריאלי", r"\bazrieli\b"],
+    "FIBI": [r"\bהבינלאומי\b", r"בנק\s+הבינלאומי", r"הבנק\s+הבינלאומי", r"\bפיבי\b", r"\bfibi\b", r"first\s+international\s+bank"],
+    "TEVA": [r"\bטבע\b", r"טבע\s+תעשיות", r"\bteva\b"],
+    "MLSR": [r"\bמליסרון\b", r"קבוצת\s+מליסרון", r"\bmelisron\b"],
 }
 
 HEADERS = {
@@ -467,6 +467,22 @@ def detect_signal(title, summary=""):
         return "SELL 🔴"
 
     return "HOLD ⚪"
+
+def detect_multiple_tickers(text):
+    text = strip_html(text).lower()
+    found = []
+
+    # US
+    for ticker, aliases in US_COMPANIES.items():
+        if any(alias.lower() in text for alias in aliases):
+            found.append(ticker)
+
+    # ישראל
+    for ticker, data in IL_COMPANIES.items():
+        if any(alias.lower() in text for alias in data.get("aliases", [])):
+            found.append(ticker)
+
+    return list(set(found))
 
 def detect_category(title, summary=""):
     text = f"{title} {summary}".lower()
