@@ -457,32 +457,32 @@ def company_is_relevant_israel(ticker, text):
 def detect_signal(title, summary=""):
     text = f"{title} {summary}".lower()
 
-    positive_score = 0
-    negative_score = 0
+    positive_hits = []
+    negative_hits = []
 
     for word in POSITIVE_KEYWORDS:
         if word.lower() in text:
-            positive_score += 1
+            positive_hits.append(word)
 
     for word in NEGATIVE_KEYWORDS:
         if word.lower() in text:
-            negative_score += 1
+            negative_hits.append(word)
 
-    score = positive_score - negative_score
+    score = len(positive_hits) - len(negative_hits)
 
     if score >= 2:
-        return "Strong BUY 🟢🔥"
+        return "Strong BUY 🟢🔥", positive_hits
 
     if score == 1:
-        return "BUY 🟢"
+        return "BUY 🟢", positive_hits
 
     if score <= -2:
-        return "Strong SELL 🔴🔥"
+        return "Strong SELL 🔴🔥", negative_hits
 
     if score == -1:
-        return "SELL 🔴"
+        return "SELL 🔴", negative_hits
 
-    return "HOLD ⚪"
+    return "HOLD ⚪", []
 
 def detect_multiple_tickers(text):
     text = strip_html(text).lower()
@@ -559,7 +559,7 @@ def get_stock_quote(ticker):
 # =========================
 # עיצוב הודעה
 # =========================
-def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, tickers=None):
+def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, tickers=None, reasons=None):
     flag = get_flag(ticker)
 
     if tickers:
@@ -571,8 +571,12 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
     safe_source = html.escape(source) if source else ""
     safe_signal = html.escape(signal)
 
-    source_line = f"\n🏷️ <b>Source:</b> {safe_source}" if safe_source else ""
     signal_line = f"\n📊 <b>Signal:</b> {safe_signal}"
+
+    reasons_line = ""
+    if reasons:
+        reasons_str = ", ".join(reasons[:3])
+        reasons_line = f"\n🧠 <i>{html.escape(reasons_str)}</i>"
 
     quote_line = ""
     if quote:
@@ -586,13 +590,13 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
     return (
         f"🚨 <b>{flag} {ticker_display}</b>\n\n"
         f"📰 <b>{short_title}</b>"
-        f"{signal_line}\n"
+        f"{signal_line}"
+        f"{reasons_line}\n"
         f"🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
         f"{quote_line}\n"
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
     )
-
 # =========================
 # אמריקאיות - Yahoo Finance RSS
 # =========================
@@ -864,7 +868,7 @@ def scan_once():
 
     for item in unique_items:
         try:
-            signal = detect_signal(item["title"], item.get("summary", ""))
+            signal, reasons = detect_signal(item["title"], item.get("summary", ""))
 
             if item["ticker"] not in quotes_cache:
                 quotes_cache[item["ticker"]] = get_stock_quote(item["ticker"])
@@ -878,6 +882,7 @@ def scan_once():
                 link=item["link"],
                 source=item.get("source", ""),
                 signal=signal,
+                reasons=reasons,
                 quote=quote,
                 tickers=item.get("tickers")
             )
