@@ -863,6 +863,7 @@ def scan_once():
                 source=item.get("source", ""),
                 signal=signal,
                 quote=quote
+                tickers=item.get("tickers")
             )
 
             send_telegram_with_image(msg, item["ticker"])
