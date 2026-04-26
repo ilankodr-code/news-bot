@@ -543,8 +543,13 @@ def get_stock_quote(ticker):
 # =========================
 # עיצוב הודעה
 # =========================
-def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None):
+def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, tickers=None):
     flag = get_flag(ticker)
+
+    if tickers:
+        ticker_display = " / ".join(tickers)
+    else:
+        ticker_display = ticker
     short_title = html.escape(shorten(title, 160))
     safe_link = html.escape(link, quote=True)
     safe_source = html.escape(source) if source else ""
@@ -811,6 +816,12 @@ def scan_once():
 
     for item in all_items:
         full_text = f"{item['title']} {item.get('summary', '')}"
+
+        tickers = detect_multiple_tickers(full_text)
+
+        if tickers:
+            item["tickers"] = tickers
+            item["ticker"] = tickers[0]
 
         if is_market_news(full_text):
             item["ticker"] = "MARKET"
