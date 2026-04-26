@@ -568,7 +568,7 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
             quote_line = f"\n📈 <b>Price:</b> {price}"
 
     return (
-        f"🚨 <b>{flag} {ticker}</b>\n\n"
+        f"🚨 <b>{flag} {ticker_display}</b>\n\n"
         f"📰 <b>{short_title}</b>"
         f"{signal_line}\n"
         f"🕒 <i>{clean_time_str(published)}</i>"
