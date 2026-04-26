@@ -862,7 +862,7 @@ def scan_once():
                 link=item["link"],
                 source=item.get("source", ""),
                 signal=signal,
-                quote=quote
+                quote=quote,
                 tickers=item.get("tickers")
             )
 
