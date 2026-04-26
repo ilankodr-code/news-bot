@@ -607,11 +607,13 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         ticker_display = " / ".join(tickers)
     else:
         ticker_display = ticker
+
     short_title = html.escape(shorten(title, 160))
     safe_link = html.escape(link, quote=True)
     safe_source = html.escape(source) if source else ""
     safe_signal = html.escape(signal)
 
+    source_line = f"\n🏷️ <b>Source:</b> {safe_source}" if safe_source else ""
     signal_line = f"\n📊 <b>Signal:</b> {safe_signal}"
 
     reasons_line = ""
@@ -620,17 +622,6 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         reasons_line = f"\n🧠 <i>{html.escape(reasons_str)}</i>"
 
     quote_line = ""
-
-    target_line = ""
-    if price_target:
-        mean = price_target.get("mean")
-        upside = price_target.get("upside")
-
-        if mean and upside is not None:
-            target_line = f"🎯 <b>Target:</b> {mean} | Upside: {upside:+.1f}%"
-        elif mean:
-            target_line = f"🎯 <b>Target:</b> {mean}"
-
     if quote:
         price = quote.get("price")
         change_pct = quote.get("change_pct")
@@ -639,17 +630,27 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         elif price:
             quote_line = f"\n📈 <b>Price:</b> {price}"
 
+    target_line = ""
+    if price_target:
+        mean = price_target.get("mean")
+        upside = price_target.get("upside")
+
+        if mean and upside is not None:
+            target_line = f"\n🎯 <b>Target:</b> {mean} | Upside: {upside:+.1f}%"
+        elif mean:
+            target_line = f"\n🎯 <b>Target:</b> {mean}"
+
     return (
         f"🚨 <b>{flag} {ticker_display}</b>\n\n"
         f"📰 <b>{short_title}</b>"
         f"{signal_line}"
-        f"{reasons_line}\n"
-        f"🕒 <i>{clean_time_str(published)}</i>"
+        f"{reasons_line}"
+        f"\n🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
         f"{quote_line}"
-        f"\n{target_line}\n" if target_line else ""
+        f"{target_line}\n"
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
-    )
+    )tc
 # =========================
 # אמריקאיות - Yahoo Finance RSS
 # =========================
