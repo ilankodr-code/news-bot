@@ -650,6 +650,8 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         f"{quote_line}"
         f"{target_line}\n"
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
+    )
+        
 # =========================
 # אמריקאיות - Yahoo Finance RSS
 # =========================
