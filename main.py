@@ -32,7 +32,7 @@ TITLE_MEMORY_FILE = "sent_titles.json"
 MAX_NEWS_AGE_HOURS = 24
 BOT_START_TIME = datetime.now(timezone.utc)
 
-US_TICKERS = ["NVDA", "AVGO", "AAPL", "GOOG", "MSFT", "GEV", "GE"]
+US_TICKERS = ["NVDA", "AVGO", "AAPL", "GOOG", "MSFT", "GEV", "GE", "HOOD", "RDDT", "RKLB"]
 SPECIAL_TICKERS = ["BANKS"]
 
 US_COMPANIES = {
@@ -42,7 +42,10 @@ US_COMPANIES = {
     "GOOG": ["google", "alphabet", "goog"],
     "MSFT": ["microsoft", "msft"],
     "GE":   ["general electric co", "ge"],
-    "GEV":  ["ge vernova inc", "gev"]
+    "GEV":  ["ge vernova inc", "gev"],
+    "HOOD": ["robinhood", "hood"],
+    "RDDT": ["reddit", "rddt"],
+    "RKLB": ["rocket lab", "rocketlab", "rklb"]
 }
 
 IL_COMPANIES = {
@@ -150,6 +153,9 @@ COMPANY_IMAGES = {
     "AAPL": "https://logo.clearbit.com/apple.com",
     "GOOG": "https://logo.clearbit.com/google.com",
     "MSFT": "https://logo.clearbit.com/microsoft.com",
+    "HOOD": "https://logo.clearbit.com/robinhood.com",
+    "RDDT": "https://logo.clearbit.com/reddit.com",
+    "RKLB": "https://logo.clearbit.com/rocketlabusa.com",
 
     "LUMI": "https://logo.clearbit.com/leumi.co.il",
     "POLI": "https://logo.clearbit.com/poalim.co.il",
