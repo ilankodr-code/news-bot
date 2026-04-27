@@ -529,18 +529,18 @@ def detect_signal(title, summary=""):
     score = len(positive_hits) - len(negative_hits)
 
     if score >= 2:
-        return "Strong BUY 🟢🔥", positive_hits
+        return "STRONG BUY 🔥", positive_hits
 
     if score == 1:
-        return "BUY 🟢", positive_hits
+        return "BUY", positive_hits
 
     if score <= -2:
-        return "Strong SELL 🔴🔥", negative_hits
+        return "STRONG SELL 🔥", negative_hits
 
     if score == -1:
-        return "SELL 🔴", negative_hits
+        return "SELL", negative_hits
 
-    return "HOLD ⚪", []
+    return "HOLD", []
 
 def detect_multiple_tickers(text):
     text = strip_html(text).lower()
@@ -700,10 +700,6 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
     source_line = f"\n🏷️ <b>Source:</b> {safe_source}" if safe_source else ""
     signal_line = f"\n📊 <b>Signal:</b> {safe_signal}"
 
-    reasons_line = ""
-    if reasons:
-        reasons_str = ", ".join(r for r in reasons if r.lower() not in signal.lower())[:50]
-        reasons_line = f"\n🧠 <i>{html.escape(reasons_str)}</i>"
 
     quote_line = ""
     if quote:
@@ -716,12 +712,10 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
             
     analyst_line = ""
     if analyst_data:
-        sb = analyst_data.get("strong_buy", 0)
         b = analyst_data.get("buy", 0)
-        h = analyst_data.get("hold", 0)
         s = analyst_data.get("sell", 0)
 
-        analyst_line = f"\n👨‍💼 <b>Analysts:</b> SB:{sb} | B:{b} | H:{h} | S:{s}"
+        analyst_line = f"\n👨‍💼 <b>Analysts:</b> B:{b} | S:{s}"
     
     target_line = ""
     if price_target:
@@ -737,7 +731,6 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         f"🚨 <b>{flag} {ticker_display}</b>\n\n"
         f"📰 <b>{short_title}</b>"
         f"{signal_line}"
-        f"{reasons_line}"
         f"\n🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
         f"{quote_line}"
