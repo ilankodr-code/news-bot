@@ -106,14 +106,29 @@ IL_COMPANIES = {
 BANKS_KEYWORDS = [
     "בנק ישראל",
     "בנקים",
+    "הבנקים",
     "מדד הבנקים",
     "ת\"א בנקים",
+    "בנק הפועלים",
+    "לאומי",
+    "מזרחי טפחות",
+    "הבינלאומי",
+
     "ביטוח",
     "חברות ביטוח",
-    "פיננסים",
-    "financials"
-]
+    "חברות הביטוח",
+    "מדד הביטוח",
+    "הפניקס",
+    "הראל",
+    "כלל ביטוח",
+    "מנורה מבטחים",
 
+    "דלק",
+    "קבוצת דלק",
+    "נפט וגז",
+    "אנרגיה",
+    "מדד נפט וגז"
+]
 MARKET_KEYWORDS = [
     "המסחר ננעל",
     "יום המסחר",
@@ -220,6 +235,17 @@ POSITIVE_KEYWORDS = [
     "מזנקת", "מזנק", "קופצת", "עולה", "מטפסת", "מתחזקת",
     "עלייה", "עליות", "זינוק", "תזנק", "צפויה לעלות",
     "זכתה בחוזה", "חוזה חדש", "הסכם חדש", "שיתוף פעולה"
+]
+
+JUNK_KEYWORDS = [
+    "market research",
+    "industry report",
+    "forecast report",
+    "global market report",
+    "top stocks",
+    "best stocks",
+    "stocks to buy",
+    "dividend stocks",
 ]
 
 NEGATIVE_KEYWORDS = [
@@ -403,10 +429,11 @@ def get_flag(ticker):
 
 def clean_time_str(published):
     try:
-        dt = datetime.strptime(published, "%a, %d %b %Y %H:%M:%S %z")
+        from dateutil import parser
+        dt = parser.parse(published)
         return dt.strftime("%d-%m-%Y")
     except:
-        return ""
+        return published[:10] if published else ""
 
 # =========================
 # זמן / תאריך
@@ -675,7 +702,7 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
 
     reasons_line = ""
     if reasons:
-        reasons_str = ", ".join(reasons[:3])
+        reasons_str = ", ".join(r for r in reasons if r.lower() not in signal.lower())[:50]
         reasons_line = f"\n🧠 <i>{html.escape(reasons_str)}</i>"
 
     quote_line = ""
@@ -959,16 +986,19 @@ def scan_once():
     for item in all_items:
         full_text = f"{item['title']} {item.get('summary', '')} {item.get('link', '')}"
 
+        if any(junk in full_text.lower() for junk in JUNK_KEYWORDS):
+            continue
+
         tickers = detect_multiple_tickers(full_text)
 
         if tickers:
             item["tickers"] = tickers
             item["ticker"] = tickers[0]
 
-        if is_market_news(full_text):
-            item["ticker"] = "MARKET"
-        elif is_banks_macro(full_text):
+        if is_banks_macro(full_text):
             item["ticker"] = "BANKS"
+        elif is_market_news(full_text):
+            item["ticker"] = "MARKET"
 
         normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
         normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
