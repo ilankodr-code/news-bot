@@ -625,10 +625,38 @@ def get_price_target(ticker, quote=None):
 
     return None
 
+def get_analyst_recommendation(ticker):
+    api_key = os.getenv("FINNHUB_API_KEY")
+    if not api_key:
+        return None
+
+    url = f"https://finnhub.io/api/v1/stock/recommendation?symbol={ticker}&token={api_key}"
+
+    try:
+        res = requests.get(url, timeout=5)
+        data = res.json()
+
+        if not data:
+            return None
+
+        latest = data[0]
+
+        return {
+            "strong_buy": latest.get("strongBuy", 0),
+            "buy": latest.get("buy", 0),
+            "hold": latest.get("hold", 0),
+            "sell": latest.get("sell", 0),
+            "strong_sell": latest.get("strongSell", 0),
+        }
+
+    except Exception as e:
+        print("Analyst recommendation error:", e)
+        return None
+
 # =========================
 # עיצוב הודעה
 # =========================
-def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, price_target=None, tickers=None, reasons=None):
+def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, price_target=None, tickers=None, reasons=None, analyst_data=None):
     flag = get_flag(ticker)
 
     if tickers:
@@ -657,7 +685,16 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
             quote_line = f"\n📈 <b>Price:</b> {price} ({change_pct})"
         elif price:
             quote_line = f"\n📈 <b>Price:</b> {price}"
+            
+    analyst_line = ""
+    if analyst_data:
+        sb = analyst_data.get("strong_buy", 0)
+        b = analyst_data.get("buy", 0)
+        h = analyst_data.get("hold", 0)
+        s = analyst_data.get("sell", 0)
 
+        analyst_line = f"\n👨‍💼 <b>Analysts:</b> SB:{sb} | B:{b} | H:{h} | S:{s}"
+    
     target_line = ""
     if price_target:
         mean = price_target.get("mean")
@@ -676,6 +713,7 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
         f"\n🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
         f"{quote_line}"
+        f"{analyst_line}"
         f"{target_line}\n"
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
     )
@@ -959,6 +997,7 @@ def scan_once():
             quote = quotes_cache[item["ticker"]]
 
             price_target = get_price_target(item["ticker"], quote)
+            analyst_data = get_analyst_recommendation(item["ticker"])
 
             msg = format_msg(
                 ticker=item["ticker"],
@@ -969,6 +1008,7 @@ def scan_once():
                 signal=signal,
                 reasons=reasons,
                 quote=quote,
+                analyst_data=analyst_data,
                 price_target=price_target,
                 tickers=item.get("tickers")
             )
