@@ -861,6 +861,46 @@ def get_globes_news():
         })
 
     return items
+
+def get_sponser_news():
+    url = "https://www.sponser.co.il/Content_rss.aspx"
+    feed = parse_feed(url)
+    items = []
+
+    print(f"Checking Sponser - entries: {len(feed.entries)}")
+
+    for entry in feed.entries[:30]:
+        if not is_recent_entry(entry, MAX_NEWS_AGE_HOURS):
+            continue
+
+        title = getattr(entry, "title", "").strip()
+        link = getattr(entry, "link", "").strip()
+        summary = getattr(entry, "summary", "").strip()
+        published = normalize_time(entry)
+
+        if not title or not link:
+            continue
+
+        full_text = f"{title} {summary} {link}"
+
+        if not (
+            detect_multiple_tickers(full_text)
+            or is_banks_macro(full_text)
+            or is_market_news(full_text)
+        ):
+            continue
+
+        items.append({
+            "ticker": "IL_MARKET",
+            "title": title,
+            "summary": summary,
+            "time": published,
+            "link": link,
+            "source": "Sponser"
+        })
+
+    return items
+    
 # =========================
 # Google News RSS
 # =========================
@@ -956,6 +996,14 @@ def scan_once():
         print("After MAYA:", len(all_items))
     except Exception as e:
         print("MAYA error:", e)
+
+        # Sponser
+    try:
+        sponser_items = get_sponser_news()
+        all_items.extend(sponser_items)
+        print("After Sponser:", len(all_items))
+    except Exception as e:
+        print("Sponser error:", e)
         
     # Globes
     try:
