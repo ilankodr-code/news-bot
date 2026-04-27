@@ -600,6 +600,7 @@ def get_price_target(ticker, quote=None):
     try:
         res = requests.get(url, timeout=5)
         data = res.json()
+        print("FINNHUB PRICE TARGET DATA:", ticker, data)
 
         mean = data.get("targetMean")
         high = data.get("targetHigh")
