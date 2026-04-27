@@ -50,56 +50,56 @@ US_COMPANIES = {
 
 IL_COMPANIES = {
     "LUMI": {
-        "queries": ['"בנק לאומי"', '"לאומי"', '"Bank Leumi"', '"Leumi"'],
-        "aliases": ["בנק לאומי", "לאומי", "לאומי למשכנתאות", "Bank Leumi", "Leumi"]
+        "queries": ['"בנק לאומי"', '"לאומי"', '"לאומי למשכנתאות"', '"Bank Leumi"', '"Leumi"'],
+        "aliases": ["בנק לאומי", "לאומי", "לאומי למשכנתאות", "leumi", "bank leumi"]
     },
     "POLI": {
-        "queries": ['"בנק הפועלים"', '"פועלים"', '"Bank Hapoalim"', '"Hapoalim"'],
-        "aliases": ["בנק הפועלים", "הפועלים", "פועלים", "Bank Hapoalim", "Hapoalim"]
+        "queries": ['"בנק הפועלים"', '"הפועלים"', '"פועלים"', '"Bank Hapoalim"', '"Hapoalim"', '"Poalim"'],
+        "aliases": ["בנק הפועלים", "הפועלים", "פועלים", "hapoalim", "poalim", "bank hapoalim"]
     },
     "HARL": {
-        "queries": ['"הראל"', '"הראל השקעות"', '"הראל ביטוח"', '"Harel"'],
-        "aliases": ["הראל", "הראל השקעות", "הראל ביטוח", "קבוצת הראל", "Harel"]
+        "queries": ['"הראל"', '"הראל השקעות"', '"הראל ביטוח"', '"קבוצת הראל"', '"Harel"'],
+        "aliases": ["הראל", "הראל השקעות", "הראל ביטוח", "קבוצת הראל", "harel"]
     },
     "ESLT": {
-        "queries": ['"אלביט"', '"אלביט מערכות"', '"Elbit"', '"Elbit Systems"'],
-        "aliases": ["אלביט", "אלביט מערכות", "אלביט סיסטמס", "Elbit", "Elbit Systems"]
+        "queries": ['"אלביט"', '"אלביט מערכות"', '"אלביט סיסטמס"', '"Elbit"', '"Elbit Systems"'],
+        "aliases": ["אלביט", "אלביט מערכות", "אלביט סיסטמס", "elbit", "elbit systems"]
     },
     "DLEKG": {
-        "queries": ['"דלק"', '"קבוצת דלק"', '"דלק קבוצה"', '"Delek Group"'],
-        "aliases": ["דלק", "קבוצת דלק", "דלק קבוצה", "דלק גרופ", "Delek Group"]
+        "queries": ['"דלק"', '"קבוצת דלק"', '"דלק קבוצה"', '"דלק גרופ"', '"Delek Group"'],
+        "aliases": ["דלק", "קבוצת דלק", "דלק קבוצה", "דלק גרופ", "delek", "delek group"]
     },
     "PHOE": {
-        "queries": ['"הפניקס"', '"פניקס"', '"קבוצת הפניקס"', '"הפניקס השקעות"', '"Phoenix"', '"Phoenix Holdings"'],
-        "aliases": ["הפניקס", "פניקס", "קבוצת הפניקס", "הפניקס השקעות", "הפניקס ביטוח", "Phoenix", "Phoenix Holdings"]
+        "queries": ['"הפניקס"', '"פניקס"', '"קבוצת הפניקס"', '"הפניקס השקעות"', '"הפניקס ביטוח"', '"Phoenix"', '"Phoenix Holdings"'],
+        "aliases": ["הפניקס", "פניקס", "קבוצת הפניקס", "הפניקס השקעות", "הפניקס ביטוח", "phoenix", "phoenix holdings"]
     },
     "MZTF": {
-        "queries": ['"מזרחי"', '"מזרחי טפחות"', '"בנק מזרחי"', '"Mizrahi Tefahot"'],
-        "aliases": ["מזרחי", "מזרחי טפחות", "מזרחי-טפחות", "בנק מזרחי", "בנק מזרחי טפחות", "Mizrahi Tefahot"]
+        "queries": ['"מזרחי"', '"מזרחי טפחות"', '"מזרחי-טפחות"', '"בנק מזרחי"', '"בנק מזרחי טפחות"', '"Mizrahi Tefahot"'],
+        "aliases": ["מזרחי", "מזרחי טפחות", "מזרחי-טפחות", "בנק מזרחי", "בנק מזרחי טפחות", "mizrahi", "mizrahi tefahot"]
     },
     "BEZQ": {
-        "queries": ['"בזק"', '"Bezeq"'],
-        "aliases": ["בזק", "קבוצת בזק", "Bezeq"]
+        "queries": ['"בזק"', '"קבוצת בזק"', '"Bezeq"'],
+        "aliases": ["בזק", "קבוצת בזק", "bezeq"]
     },
     "PAZ": {
-        "queries": ['"פז"', '"פז אנרגיה"', '"Paz"'],
-        "aliases": ["פז", "פז אנרגיה", "קבוצת פז", "Paz"]
+        "queries": ['"פז"', '"פז אנרגיה"', '"קבוצת פז"', '"Paz"'],
+        "aliases": ["פז", "פז אנרגיה", "קבוצת פז", "paz"]
     },
     "AZRG": {
-        "queries": ['"עזריאלי"', '"קבוצת עזריאלי"', '"Azrieli"'],
-        "aliases": ["עזריאלי", "קבוצת עזריאלי", "קניוני עזריאלי", "Azrieli"]
+        "queries": ['"עזריאלי"', '"קבוצת עזריאלי"', '"קניוני עזריאלי"', '"Azrieli"'],
+        "aliases": ["עזריאלי", "קבוצת עזריאלי", "קניוני עזריאלי", "azrieli"]
     },
     "FIBI": {
-        "queries": ['"הבינלאומי"', '"בנק הבינלאומי"', '"פיבי"', '"FIBI"', '"First International Bank"'],
-        "aliases": ["הבינלאומי", "בנק הבינלאומי", "הבנק הבינלאומי", "פיבי", "FIBI", "First International Bank"]
+        "queries": ['"הבינלאומי"', '"בנק הבינלאומי"', '"הבנק הבינלאומי"', '"פיבי"', '"FIBI"', '"First International Bank"'],
+        "aliases": ["הבינלאומי", "בנק הבינלאומי", "הבנק הבינלאומי", "פיבי", "fibi", "first international bank"]
     },
     "TEVA": {
-        "queries": ['"טבע"', '"טבע תעשיות"', '"Teva"'],
-        "aliases": ["טבע", "טבע תעשיות", "טבע תעשיות פרמצבטיות", "Teva"]
+        "queries": ['"טבע"', '"טבע תעשיות"', '"טבע תעשיות פרמצבטיות"', '"Teva"'],
+        "aliases": ["טבע", "טבע תעשיות", "טבע תעשיות פרמצבטיות", "teva"]
     },
     "MLSR": {
-        "queries": ['"מליסרון"', '"Melisron"'],
-        "aliases": ["מליסרון", "קבוצת מליסרון", "Melisron"]
+        "queries": ['"מליסרון"', '"קבוצת מליסרון"', '"Melisron"'],
+        "aliases": ["מליסרון", "קבוצת מליסרון", "melisron"]
     },
 }
 
@@ -173,18 +173,18 @@ COMPANY_IMAGES = {
 }
 
 STRICT_COMPANY_PATTERNS = {
-    "LUMI": [r"בנק\s+לאומי", r"\bלאומי\b", r"bank\s+leumi", r"\bleumi\b"],
-    "POLI": [r"בנק\s+הפועלים", r"\bהפועלים\b", r"\bפועלים\b", r"bank\s+hapoalim", r"\bhapoalim\b"],
+    "LUMI": [r"בנק\s+לאומי", r"\bלאומי\b", r"לאומי\s+למשכנתאות", r"\bleumi\b", r"bank\s+leumi"],
+    "POLI": [r"בנק\s+הפועלים", r"\bהפועלים\b", r"\bפועלים\b", r"\bhapoalim\b", r"\bpoalim\b", r"bank\s+hapoalim"],
     "HARL": [r"\bהראל\b", r"הראל\s+השקעות", r"הראל\s+ביטוח", r"קבוצת\s+הראל", r"\bharel\b"],
-    "ESLT": [r"\bאלביט\b", r"אלביט\s+מערכות", r"elbit\s+systems", r"\belbit\b"],
-    "DLEKG": [r"\bדלק\b", r"דלק\s+קבוצה", r"קבוצת\s+דלק", r"delek\s+group"],
+    "ESLT": [r"\bאלביט\b", r"אלביט\s+מערכות", r"אלביט\s+סיסטמס", r"\belbit\b", r"elbit\s+systems"],
+    "DLEKG": [r"\bדלק\b", r"דלק\s+קבוצה", r"קבוצת\s+דלק", r"דלק\s+גרופ", r"\bdelek\b", r"delek\s+group"],
     "PHOE": [r"\bהפניקס\b", r"\bפניקס\b", r"קבוצת\s+הפניקס", r"הפניקס\s+השקעות", r"הפניקס\s+ביטוח", r"\bphoenix\b", r"phoenix\s+holdings"],
-    "MZTF": [r"\bמזרחי\b", r"מזרחי\s*טפחות", r"בנק\s+מזרחי", r"mizrahi\s+tefahot"],
+    "MZTF": [r"\bמזרחי\b", r"מזרחי\s*טפחות", r"מזרחי-טפחות", r"בנק\s+מזרחי", r"בנק\s+מזרחי\s+טפחות", r"\bmizrahi\b", r"mizrahi\s+tefahot"],
     "BEZQ": [r"\bבזק\b", r"קבוצת\s+בזק", r"\bbezeq\b"],
     "PAZ": [r"\bפז\b", r"פז\s+אנרגיה", r"קבוצת\s+פז", r"\bpaz\b"],
-    "AZRG": [r"\bעזריאלי\b", r"קבוצת\s+עזריאלי", r"\bazrieli\b"],
+    "AZRG": [r"\bעזריאלי\b", r"קבוצת\s+עזריאלי", r"קניוני\s+עזריאלי", r"\bazrieli\b"],
     "FIBI": [r"\bהבינלאומי\b", r"בנק\s+הבינלאומי", r"הבנק\s+הבינלאומי", r"\bפיבי\b", r"\bfibi\b", r"first\s+international\s+bank"],
-    "TEVA": [r"\bטבע\b", r"טבע\s+תעשיות", r"\bteva\b"],
+    "TEVA": [r"\bטבע\b", r"טבע\s+תעשיות", r"טבע\s+תעשיות\s+פרמצבטיות", r"\bteva\b"],
     "MLSR": [r"\bמליסרון\b", r"קבוצת\s+מליסרון", r"\bmelisron\b"],
 }
 
@@ -194,36 +194,59 @@ HEADERS = {
 }
 
 POSITIVE_KEYWORDS = [
-    # English
+    # Analyst / targets
     "upgrade", "upgraded", "raises price target", "raised price target",
-    "price target raised", "higher price target", "outperform", "buy rating",
-    "strong buy", "beats estimates", "beats expectations", "record revenue",
-    "profit rises", "revenue rises", "guidance raised", "raises guidance",
-    "contract win", "wins contract", "new contract", "surges", "jumps",
+    "price target raised", "higher price target", "outperform", "overweight",
+    "buy rating", "strong buy", "positive rating", "bullish",
+    "העלאת מחיר יעד", "מחיר יעד גבוה", "מחיר יעד גבוה יותר",
+    "העלה מחיר יעד", "מעלה מחיר יעד", "העלאת המלצה",
+    "המלצת קנייה", "קנייה", "תשואת יתר", "אפסייד",
+    "אפסייד גבוה", "פוטנציאל עלייה",
 
-    # Hebrew
-    "העלאת מחיר יעד", "מחיר יעד גבוה יותר", "העלה מחיר יעד",
-    "העלאת המלצה", "המלצת קנייה", "קנייה", "תשואת יתר",
-    "דוחות חזקים", "עקפה את התחזיות", "מעל התחזיות",
-    "רווח עלה", "הכנסות עלו", "מעלה תחזית", "זכתה בחוזה",
-    "חוזה חדש", "מזנקת", "עולה"
+    # Earnings / business
+    "beats estimates", "beats expectations", "better than expected",
+    "record revenue", "record profit", "strong results", "strong earnings",
+    "profit rises", "revenue rises", "guidance raised", "raises guidance",
+    "growth", "strong demand", "margin expansion",
+    "עקפה את התחזיות", "מעל התחזיות", "טוב מהצפוי",
+    "דוחות חזקים", "תוצאות חזקות", "רווח עלה", "הכנסות עלו",
+    "שיפור ברווח", "שיפור בהכנסות", "צמיחה", "ביקושים חזקים",
+    "תחזית חיובית", "מעלה תחזית",
+
+    # Market move / contracts
+    "surges", "jumps", "rallies", "gains", "rises", "climbs",
+    "contract win", "wins contract", "new contract", "deal signed",
+    "partnership", "expansion",
+    "מזנקת", "מזנק", "קופצת", "עולה", "מטפסת", "מתחזקת",
+    "עלייה", "עליות", "זינוק", "תזנק", "צפויה לעלות",
+    "זכתה בחוזה", "חוזה חדש", "הסכם חדש", "שיתוף פעולה"
 ]
 
-
 NEGATIVE_KEYWORDS = [
-    # English
+    # Analyst / targets
     "downgrade", "downgraded", "cuts price target", "cut price target",
-    "price target cut", "lower price target", "underperform", "sell rating",
-    "misses estimates", "misses expectations", "profit falls", "revenue falls",
-    "guidance cut", "cuts guidance", "weak guidance", "lawsuit",
-    "investigation", "warning", "plunges", "drops",
+    "price target cut", "lower price target", "underperform", "underweight",
+    "sell rating", "negative rating", "bearish",
+    "הורדת מחיר יעד", "מחיר יעד נמוך", "מחיר יעד נמוך יותר",
+    "הוריד מחיר יעד", "חותך מחיר יעד", "הורדת המלצה",
+    "המלצת מכירה", "מכירה", "תשואת חסר", "דאונסייד",
+    "פוטנציאל ירידה",
 
-    # Hebrew
-    "הורדת מחיר יעד", "מחיר יעד נמוך יותר", "הוריד מחיר יעד",
-    "הורדת המלצה", "המלצת מכירה", "מכירה", "תשואת חסר",
-    "פספסה את התחזיות", "מתחת לתחזיות", "רווח ירד", "הכנסות ירדו",
-    "חותכת תחזית", "אזהרת רווח", "תביעה", "חקירה",
-    "נחתכת", "נופלת", "יורדת"
+    # Earnings / business
+    "misses estimates", "misses expectations", "worse than expected",
+    "weak results", "weak earnings", "profit falls", "revenue falls",
+    "guidance cut", "cuts guidance", "weak guidance", "margin pressure",
+    "פספסה את התחזיות", "מתחת לתחזיות", "חלש מהצפוי",
+    "דוחות חלשים", "תוצאות חלשות", "רווח ירד", "הכנסות ירדו",
+    "ירידה ברווח", "ירידה בהכנסות", "חולשה", "ביקושים חלשים",
+    "תחזית שלילית", "חותכת תחזית", "אזהרת רווח",
+
+    # Market move / legal
+    "falls", "drops", "plunges", "slides", "declines", "tumbles",
+    "lawsuit", "investigation", "probe", "warning",
+    "נופלת", "נופל", "יורדת", "יורד", "נחלשת", "נחתכת",
+    "ירידה", "ירידות", "נפילה", "תיפול", "צפויה לרדת",
+    "תביעה", "חקירה", "אזהרה", "לחץ"
 ]
 CATEGORY_KEYWORDS = {
     "Earnings": [
@@ -895,7 +918,7 @@ def scan_once():
     unique_items = []
 
     for item in all_items:
-        full_text = f"{item['title']} {item.get('summary', '')}"
+        full_text = f"{item['title']} {item.get('summary', '')} {item.get('link', '')}"
 
         tickers = detect_multiple_tickers(full_text)
 
