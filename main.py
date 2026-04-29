@@ -1066,24 +1066,21 @@ def scan_once():
 
     quotes_cache = {}
 
-    title_key = item["title"].strip().lower()
-
-    if title_key in sent_titles:
-        continue
-
-    sent_titles.add(title_key)
-
     for item in unique_items:
         try:
+            title_key = item["title"].strip().lower()
+
+            if title_key in sent_titles:
+                continue
+
+            sent_titles.add(title_key)
+
             signal, reasons = detect_signal(item["title"], item.get("summary", ""))
 
             if item["ticker"] not in quotes_cache:
                 quotes_cache[item["ticker"]] = get_stock_quote(item["ticker"])
 
             quote = quotes_cache[item["ticker"]]
-
-            price_target = get_price_target(item["ticker"], quote)
-            analyst_data = get_analyst_recommendation(item["ticker"])
 
             msg = format_msg(
                 ticker=item["ticker"],
