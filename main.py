@@ -1093,7 +1093,7 @@ def scan_once():
                 source=item.get("source", ""),
                 reasons=reasons,
                 quote=quote,
-                tickers=item.get("tickers")
+                tickers=item.get("tickers"),
                 summary=item.get("summary", "")
             )
 
