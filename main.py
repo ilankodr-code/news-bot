@@ -1091,12 +1091,10 @@ def scan_once():
                 published=item["time"],
                 link=item["link"],
                 source=item.get("source", ""),
-                signal=signal,
                 reasons=reasons,
                 quote=quote,
-                analyst_data=analyst_data,
-                price_target=price_target,
                 tickers=item.get("tickers")
+                summary=item.get("summary", "")
             )
 
             send_telegram_with_image(msg, item["ticker"])
