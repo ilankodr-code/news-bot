@@ -15,9 +15,12 @@ import html
 import re
 import yfinance as yf
 
+
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+from googletrans import Translator
+translator = Translator()
 
 # =========================
 # הגדרות
@@ -26,6 +29,7 @@ BOT_TOKEN = "8794578521:AAFcYLd_x1b1G2X5c6ipDi7qqqJMCHO3hUU"
 CHAT_ID = "889613914"
 CHECK_EVERY_SECONDS = 300
 
+sent_titles = set()
 SENT_FILE = "sent_links.json"
 TITLE_MEMORY_FILE = "sent_titles.json"
 
@@ -688,7 +692,7 @@ def get_analyst_recommendation(ticker):
 # =========================
 # עיצוב הודעה
 # =========================
-def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quote=None, price_target=None, tickers=None, reasons=None, analyst_data=None):
+def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=None, price_target=None, tickers=None, reasons=None, analyst_data=None, summary=""):
     flag = get_flag(ticker)
 
     if tickers:
@@ -696,14 +700,28 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
     else:
         ticker_display = ticker
 
-    short_title = html.escape(shorten(title, 160))
+    translated_title = title
+    if title and not any("\u0590" <= c <= "\u05FF" for c in title):
+        try:
+            translated_title = translator.translate(title, dest="he").text
+        except:
+            translated_title = title
+
+    translated_summary = ""
+    if summary:
+        if not any("\u0590" <= c <= "\u05FF" for c in summary):
+            try:
+                translated_summary = translator.translate(summary, dest="he").text
+            except:
+                translated_summary = summary
+        else:
+            translated_summary = summary
+
+    short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
     safe_source = html.escape(source) if source else ""
-    safe_signal = html.escape(signal)
 
     source_line = f"\n🏷️ <b>Source:</b> {safe_source}" if safe_source else ""
-    signal_line = f"\n📊 <b>Signal:</b> {safe_signal}"
-
 
     quote_line = ""
     if quote:
@@ -713,33 +731,18 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD ⚪", quo
             quote_line = f"\n📈 <b>Price:</b> {price} ({change_pct})"
         elif price:
             quote_line = f"\n📈 <b>Price:</b> {price}"
-            
-    analyst_line = ""
-    if analyst_data:
-        b = analyst_data.get("buy", 0)
-        s = analyst_data.get("sell", 0)
 
-        analyst_line = f"\n👨‍💼 <b>Analysts:</b> B:{b} | S:{s}"
-    
-    target_line = ""
-    if price_target:
-        mean = price_target.get("mean")
-        upside = price_target.get("upside")
-
-        if mean and upside is not None:
-            target_line = f"\n🎯 <b>Target:</b> {mean} | Upside: {upside:+.1f}%"
-        elif mean:
-            target_line = f"\n🎯 <b>Target:</b> {mean}"
+    summary_line = ""
+    if translated_summary:
+        summary_line = f"\n📝 {html.escape(shorten(translated_summary, 220))}"
 
     return (
         f"🚨 <b>{flag} {ticker_display}</b>\n\n"
         f"📰 <b>{short_title}</b>"
-        f"{signal_line}"
+        f"{summary_line}"
         f"\n🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
-        f"{quote_line}"
-        f"{analyst_line}"
-        f"{target_line}\n"
+        f"{quote_line}\n"
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
     )
         
@@ -1062,6 +1065,13 @@ def scan_once():
     unique_items = unique_items[:MAX_MESSAGES_PER_SCAN]
 
     quotes_cache = {}
+
+    title_key = item["title"].strip().lower()
+
+    if title_key in sent_titles:
+        continue
+
+    sent_titles.add(title_key)
 
     for item in unique_items:
         try:
