@@ -5,8 +5,6 @@
 #         os.remove(f)
 #         print("deleted", f)
 
-pip install googletrans==4.0.0-rc1
-
 import os
 import json
 import time
