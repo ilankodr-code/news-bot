@@ -5,6 +5,8 @@
 #         os.remove(f)
 #         print("deleted", f)
 
+pip install googletrans==4.0.0-rc1
+
 import os
 import json
 import time
@@ -18,9 +20,11 @@ import yfinance as yf
 
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
-from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
-from googletrans import Translator
-translator = Translator()
+try:
+    from googletrans import Translator
+    translator = Translator()
+except:
+    translator = None
 
 # =========================
 # הגדרות
