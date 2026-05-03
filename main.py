@@ -15,7 +15,7 @@ import html
 import re
 import yfinance as yf
 
-
+from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 try:
@@ -23,6 +23,22 @@ try:
     translator = Translator()
 except:
     translator = None
+
+def translate_to_hebrew(text):
+    if not text:
+        return ""
+
+    if any("\u0590" <= c <= "\u05FF" for c in text):
+        return text
+
+    if translator is None:
+        return text
+
+    try:
+        return translator.translate(text, dest="he").text
+    except Exception as e:
+        print("Translation error:", e)
+        return text
 
 # =========================
 # הגדרות
@@ -702,22 +718,8 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
     else:
         ticker_display = ticker
 
-    translated_title = title
-    if title and not any("\u0590" <= c <= "\u05FF" for c in title):
-        try:
-            translated_title = translator.translate(title, dest="he").text
-        except:
-            translated_title = title
-
-    translated_summary = ""
-    if summary:
-        if not any("\u0590" <= c <= "\u05FF" for c in summary):
-            try:
-                translated_summary = translator.translate(summary, dest="he").text
-            except:
-                translated_summary = summary
-        else:
-            translated_summary = summary
+translated_title = translate_to_hebrew(title)
+translated_summary = translate_to_hebrew(summary)
 
     short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
