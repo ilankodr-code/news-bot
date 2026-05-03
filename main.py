@@ -570,6 +570,11 @@ def detect_signal(title, summary=""):
 
 def detect_multiple_tickers(text):
     text = strip_html(text).lower()
+    text = re.sub(r"https?://\S+", " ", text)
+    text = re.sub(r"www\.\S+", " ", text)
+    text = text.replace("google.com", " ")
+    text = text.replace("news.google.com", " ")
+    
     found = []
 
     # US - מדויק, כדי ש-GE לא ייתפס בתוך מילים כמו mortgage
@@ -718,8 +723,10 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
     else:
         ticker_display = ticker
 
+    clean_summary = strip_html(summary)
+
     translated_title = translate_to_hebrew(title)
-    translated_summary = translate_to_hebrew(summary)
+    translated_summary = translate_to_hebrew(clean_summary)
 
     short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
