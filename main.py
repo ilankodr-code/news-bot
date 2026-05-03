@@ -15,6 +15,7 @@ import html
 import re
 import yfinance as yf
 
+from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
@@ -577,6 +578,118 @@ def detect_multiple_tickers(text):
     
     found = []
 
+
+def get_maariv_news():
+    url = "https://www.maariv.co.il/tags/שוק-ההון"
+    items = []
+
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(res.text, "html.parser")
+
+        articles = soup.select("a[href]")
+
+        for a in articles[:20]:
+            title = a.get_text(strip=True)
+            link = a.get("href")
+
+            if not title or not link:
+                continue
+
+            if len(title) < 20:
+                continue
+
+            if not link.startswith("http"):
+                link = "https://www.maariv.co.il" + link
+
+            items.append({
+                "ticker": "IL_MARKET",
+                "title": title,
+                "summary": "",
+                "time": datetime.now().strftime("%Y-%m-%d"),
+                "link": link,
+                "source": "Maariv"
+            })
+
+    except Exception as e:
+        print("Maariv error:", e)
+
+    return items
+
+def get_walla_news():
+    url = "https://finance.walla.co.il/"
+    items = []
+
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(res.text, "html.parser")
+
+        articles = soup.select("a[href]")
+
+        for a in articles[:20]:
+            title = a.get_text(strip=True)
+            link = a.get("href")
+
+            if not title or not link:
+                continue
+
+            if len(title) < 20:
+                continue
+
+            if not link.startswith("http"):
+                link = "https://finance.walla.co.il" + link
+
+            items.append({
+                "ticker": "IL_MARKET",
+                "title": title,
+                "summary": "",
+                "time": datetime.now().strftime("%Y-%m-%d"),
+                "link": link,
+                "source": "Walla"
+            })
+
+    except Exception as e:
+        print("Walla error:", e)
+
+    return items
+
+def get_mako_news():
+    url = "https://www.mako.co.il/Tagit/שוק+ההון"
+    items = []
+
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(res.text, "html.parser")
+
+        articles = soup.select("a[href]")
+
+        for a in articles[:20]:
+            title = a.get_text(strip=True)
+            link = a.get("href")
+
+            if not title or not link:
+                continue
+
+            if len(title) < 20:
+                continue
+
+            if not link.startswith("http"):
+                link = "https://www.mako.co.il" + link
+
+            items.append({
+                "ticker": "IL_MARKET",
+                "title": title,
+                "summary": "",
+                "time": datetime.now().strftime("%Y-%m-%d"),
+                "link": link,
+                "source": "Mako"
+            })
+
+    except Exception as e:
+        print("Mako error:", e)
+
+    return items
+
     # US - מדויק, כדי ש-GE לא ייתפס בתוך מילים כמו mortgage
     for ticker, aliases in US_COMPANIES.items():
         for alias in aliases:
@@ -1030,6 +1143,30 @@ def scan_once():
         print("After Globes:", len(all_items))
     except Exception as e:
         print("Globes error:", e)
+
+        # Maariv
+    try:
+        maariv_items = get_maariv_news()
+        all_items.extend(maariv_items)
+        print("After Maariv:", len(all_items))
+    except Exception as e:
+        print("Maariv error:", e)
+
+    # Walla
+    try:
+        walla_items = get_walla_news()
+        all_items.extend(walla_items)
+        print("After Walla:", len(all_items))
+    except Exception as e:
+        print("Walla error:", e)
+
+    # Mako
+    try:
+        mako_items = get_mako_news()
+        all_items.extend(mako_items)
+        print("After Mako:", len(all_items))
+    except Exception as e:
+        print("Mako error:", e)
 
     # Israeli sites
     try:
