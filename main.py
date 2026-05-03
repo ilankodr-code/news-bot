@@ -718,8 +718,8 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
     else:
         ticker_display = ticker
 
-translated_title = translate_to_hebrew(title)
-translated_summary = translate_to_hebrew(summary)
+    translated_title = translate_to_hebrew(title)
+    translated_summary = translate_to_hebrew(summary)
 
     short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
