@@ -592,7 +592,7 @@ def get_maariv_news_for_ticker(ticker):
         articles = soup.select("a[href]")
         print(f"Maariv links for {ticker}:", len(articles))
 
-        for a in articles[:80]:
+        for a in articles:
             title = a.get_text(strip=True)
             link = a.get("href")
 
@@ -998,8 +998,10 @@ def get_globes_news():
     return items
 
 def get_sponser_news():
+    print("Checking Sponser...")
     url = "https://www.sponser.co.il/Content_rss.aspx"
     feed = parse_feed(url)
+    print("Sponser entries:", len(feed.entries))
     items = []
 
     print(f"Checking Sponser - entries: {len(feed.entries)}")
