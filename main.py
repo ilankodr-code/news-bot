@@ -831,9 +831,6 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
     translated_title = translated_title.strip()
 
     translated_summary = translate_to_hebrew(clean_summary)
-
-    if translated_title and translated_title in translated_summary:
-        translated_summary = ""
     
     short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
@@ -850,10 +847,6 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
         elif price:
             quote_line = f"\n📈 <b>Price:</b> {price}"
             
-
-    if clean_title_for_compare and clean_title_for_compare in clean_summary_for_compare:
-    translated_summary = ""
-
     summary_line = ""
     if translated_summary:
         summary_line = f"\n📝 {html.escape(shorten(translated_summary, 220))}"
