@@ -579,33 +579,34 @@ def detect_multiple_tickers(text):
     found = []
 
 
-def get_maariv_news():
-    print("Checking Maariv...")
-    url = "https://www.maariv.co.il/tags/שוק-ההון"
+def get_maariv_news_for_ticker(ticker):
+    query = IL_COMPANIES.get(ticker, {}).get("aliases", [ticker])[0]
+    url = f"https://www.maariv.co.il/tags/{query}"
     items = []
 
     try:
+        print(f"Checking Maariv for {ticker}...")
         res = requests.get(url, headers=HEADERS, timeout=10)
         soup = BeautifulSoup(res.text, "html.parser")
 
         articles = soup.select("a[href]")
-        print("Maariv links found:", len(articles))
+        print(f"Maariv links for {ticker}:", len(articles))
 
-        for a in articles[:20]:
+        for a in articles[:80]:
             title = a.get_text(strip=True)
             link = a.get("href")
 
-            if not title or not link:
+            if not title or not link or len(title) < 20:
                 continue
 
-            if len(title) < 20:
+            if not company_is_relevant_israel(ticker, title):
                 continue
 
             if not link.startswith("http"):
                 link = "https://www.maariv.co.il" + link
 
             items.append({
-                "ticker": "IL_MARKET",
+                "ticker": ticker,
                 "title": title,
                 "summary": "",
                 "time": datetime.now().strftime("%Y-%m-%d"),
@@ -614,10 +615,9 @@ def get_maariv_news():
             })
 
     except Exception as e:
-        print("Maariv error:", e)
+        print(f"Maariv error for {ticker}:", e)
 
     return items
-
 def get_walla_news():
     print("Checking Walla...")
     url = "https://finance.walla.co.il/"
@@ -1148,13 +1148,15 @@ def scan_once():
     except Exception as e:
         print("Globes error:", e)
 
-        # Maariv
-    try:
-        maariv_items = get_maariv_news()
-        all_items.extend(maariv_items)
-        print("After Maariv:", len(all_items))
-    except Exception as e:
-        print("Maariv error:", e)
+    
+    # Maariv by ticker
+    for ticker in IL_COMPANIES.keys():
+        try:
+            maariv_items = get_maariv_news_for_ticker(ticker)
+            all_items.extend(maariv_items)
+            print(f"After Maariv {ticker}:", len(all_items))
+        except Exception as e:
+            print(f"Maariv error for {ticker}:", e)
 
     # Walla
     try:
