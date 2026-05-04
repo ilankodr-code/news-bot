@@ -126,36 +126,6 @@ IL_COMPANIES = {
     },
 }
 
-BANKS_KEYWORDS = [
-    "בנק ישראל",
-    "בנקים",
-    "הבנקים",
-    "מדד הבנקים",
-    "ת\"א בנקים",
-    "בנק הפועלים",
-    "לאומי",
-    "מזרחי טפחות",
-    "הבינלאומי",
-
-    "ביטוח",
-    "חברות ביטוח",
-    "חברות הביטוח",
-    "מדד הביטוח",
-    "הפניקס",
-    "הראל",
-    "כלל ביטוח",
-    "מנורה מבטחים",
-
-    "דלק",
-    "קבוצת דלק",
-    "נפט וגז",
-    "אנרגיה",
-    "מדד נפט וגז",
-    "נפט",
-    "נפט וגז",
-    "תחנות דלק",
-    "מחירי הדלק",
-]
 MARKET_KEYWORDS = [
     "המסחר ננעל",
     "יום המסחר",
@@ -717,9 +687,6 @@ def detect_category(title, summary=""):
                 return category
     return "General"
 
-def is_banks_macro(text):
-    text = strip_html(text).lower()
-    return any(keyword.lower() in text for keyword in BANKS_KEYWORDS)
 
 def detect_israeli_ticker(text):
     text = strip_html(text).lower()
@@ -833,8 +800,8 @@ def get_analyst_recommendation(ticker):
 # עיצוב הודעה
 # =========================
 def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=None, price_target=None, tickers=None, reasons=None, analyst_data=None, summary=""):
-    flag = get_flag(ticker)
-
+    flag = "🇮🇱" if ticker in ["בנקים", "ביטוח", "דלק", "שוק"] else get_flag(ticker)
+    
     if tickers:
         ticker_display = " / ".join(tickers)
     else:
@@ -843,6 +810,9 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
     clean_summary = strip_html(summary)
 
     translated_title = translate_to_hebrew(title)
+    translated_title = re.sub(r"\d{1,2}/\d{1,2}/\d{4}\|\d{1,2}:\d{2}", "", translated_title)
+    translated_title = re.sub(r"\d{1,2}/\d{1,2}/\d{4}.*$", "", translated_title)
+    translated_title = translated_title.strip()
     translated_summary = translate_to_hebrew(clean_summary)
 
     short_title = html.escape(shorten(translated_title, 160))
@@ -1081,7 +1051,9 @@ def get_israeli_site_news():
                         continue
 
                     title = getattr(entry, "title", "").strip()
-                    summary = getattr(entry, "summary", "").strip()
+                    raw_summary = getattr(entry, "summary", "")
+                    summary = strip_html(raw_summary)
+                    summary = summary[:300]
                     link = getattr(entry, "link", "").strip()
                     published = normalize_time(entry)
 
@@ -1183,10 +1155,19 @@ def scan_once():
             item["tickers"] = tickers
             item["ticker"] = tickers[0]
 
-        if is_banks_macro(full_text):
-            item["ticker"] = "BANKS"
-        elif is_market_news(full_text):
-            item["ticker"] = "MARKET"
+        if not tickers:
+            if any(word in full_text for word in ["בנק", "בנקים", "לאומי", "פועלים", "מזרחי", "דיסקונט"]):
+                item["ticker"] = "בנקים"
+
+            elif any(word in full_text for word in ["ביטוח", "הפניקס", "הראל", "כלל ביטוח", "מנורה"]):
+                item["ticker"] = "ביטוח"
+
+            elif any(word in full_text for word in ["דלק", "נפט", "אנרגיה", "גז"]):
+                item["ticker"] = "דלק"
+
+            elif is_market_news(full_text):
+                item["ticker"] = "שוק"
+
 
         normalized_title = re.sub(r"\d{1,2}/\d{1,2}/\d{4}.*$", "", item["title"].lower())
         normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", normalized_title)
