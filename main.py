@@ -846,6 +846,12 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
         elif price:
             quote_line = f"\n📈 <b>Price:</b> {price}"
 
+    clean_title_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_title.lower())
+    clean_summary_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_summary.lower())
+
+    if clean_title_for_compare and clean_title_for_compare in clean_summary_for_compare:
+    translated_summary = ""
+
     summary_line = ""
     if translated_summary:
         summary_line = f"\n📝 {html.escape(shorten(translated_summary, 220))}"
