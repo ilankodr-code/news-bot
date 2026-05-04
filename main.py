@@ -581,7 +581,7 @@ def detect_multiple_tickers(text):
 
 def get_maariv_news_for_ticker(ticker):
     query = IL_COMPANIES.get(ticker, {}).get("aliases", [ticker])[0]
-    url = f"https://www.maariv.co.il/search?searchText={query}"
+    url = "https://www.maariv.co.il/tags/שוק-ההון"
     items = []
 
     try:
