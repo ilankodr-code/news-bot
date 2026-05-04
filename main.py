@@ -1168,35 +1168,35 @@ def scan_once():
     seen_local = set()
     unique_items = []
 
-    for item in all_items:
-        full_text = f"{item['title']} {item.get('summary', '')} {item.get('link', '')}"
+for item in all_items:
+    full_text = f"{item['title']} {item.get('summary', '')} {item.get('link', '')}"
 
-        if any(junk in full_text.lower() for junk in JUNK_KEYWORDS):
-            continue
+    if any(junk in full_text.lower() for junk in JUNK_KEYWORDS):
+        continue
 
-        tickers = detect_multiple_tickers(full_text)
+    tickers = detect_multiple_tickers(full_text)
 
-        if tickers:
-            item["tickers"] = tickers
-            item["ticker"] = tickers[0]
-        else:
-            item["ticker"] = "MARKET"
+    if tickers:
+        item["tickers"] = tickers
+        item["ticker"] = tickers[0]
 
-        if is_banks_macro(full_text):
-            item["ticker"] = "BANKS"
-        elif is_market_news(full_text):
-            item["ticker"] = "MARKET"
+    if is_banks_macro(full_text):
+        item["ticker"] = "BANKS"
+    elif is_market_news(full_text):
+        item["ticker"] = "MARKET"
 
-        normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", item["title"].lower())
-        normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
+    # 👇 זה החלק שתיקנו
+    normalized_title = re.sub(r"\d{1,2}/\d{1,2}/\d{4}.*$", "", item["title"].lower())
+    normalized_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", normalized_title)
+    normalized_title = re.sub(r"\s+", " ", normalized_title).strip()
 
-        key = (item["ticker"], normalized_title)
+    key = normalized_title
 
-        if key in seen_local:
-            continue
+    if key in seen_local:
+        continue
 
-        seen_local.add(key)
-        unique_items.append(item)
+    seen_local.add(key)
+    unique_items.append(item)
 
     print("Total new items found:", len(unique_items))
 
