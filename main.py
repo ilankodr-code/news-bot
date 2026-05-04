@@ -1168,7 +1168,7 @@ def scan_once():
     seen_local = set()
     unique_items = []
 
-for item in all_items:
+    for item in all_items:
     full_text = f"{item['title']} {item.get('summary', '')} {item.get('link', '')}"
 
     if any(junk in full_text.lower() for junk in JUNK_KEYWORDS):
