@@ -1192,6 +1192,8 @@ def scan_once():
         if tickers:
             item["tickers"] = tickers
             item["ticker"] = tickers[0]
+        else:
+            item["ticker"] = "MARKET"
 
         if is_banks_macro(full_text):
             item["ticker"] = "BANKS"
