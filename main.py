@@ -829,7 +829,14 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
     translated_title = re.sub(r"\d{1,2}/\d{1,2}/\d{4}\|\d{1,2}:\d{2}", "", translated_title)
     translated_title = re.sub(r"\d{1,2}/\d{1,2}/\d{4}.*$", "", translated_title)
     translated_title = translated_title.strip()
+
     translated_summary = translate_to_hebrew(clean_summary)
+
+    clean_title_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_title.lower())
+    clean_summary_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_summary.lower())
+
+    if clean_title_for_compare and clean_title_for_compare in clean_summary_for_compare:
+        translated_summary = ""
 
     short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
@@ -845,9 +852,7 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
             quote_line = f"\n📈 <b>Price:</b> {price} ({change_pct})"
         elif price:
             quote_line = f"\n📈 <b>Price:</b> {price}"
-
-    clean_title_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_title.lower())
-    clean_summary_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_summary.lower())
+            
 
     if clean_title_for_compare and clean_title_for_compare in clean_summary_for_compare:
     translated_summary = ""
