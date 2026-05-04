@@ -1063,6 +1063,12 @@ def get_israeli_site_news():
                 (f'{company_query} site:bizportal.co.il', "Bizportal"),
                 (f'{company_query} site:calcalist.co.il', "Calcalist"),
                 (f'{company_query} site:globes.co.il', "Globes"),
+                (f'{company_query} site:sponser.co.il', "Sponser"),
+                (f'{company_query} site:funder.co.il', "Funder"),
+                (f'{company_query} site:maariv.co.il', "Maariv"),
+                (f'{company_query} site:walla.co.il', "Walla"),
+                (f'{company_query} site:mako.co.il', "Mako"),
+                (f'{company_query} site:ice.co.il', "ICE"),
             ])
 
         for q, source_name in queries:
@@ -1150,31 +1156,6 @@ def scan_once():
     except Exception as e:
         print("Globes error:", e)
 
-    
-    # Maariv by ticker
-    for ticker in IL_COMPANIES.keys():
-        try:
-            maariv_items = get_maariv_news_for_ticker(ticker)
-            all_items.extend(maariv_items)
-            print(f"After Maariv {ticker}:", len(all_items))
-        except Exception as e:
-            print(f"Maariv error for {ticker}:", e)
-
-    # Walla
-    try:
-        walla_items = get_walla_news()
-        all_items.extend(walla_items)
-        print("After Walla:", len(all_items))
-    except Exception as e:
-        print("Walla error:", e)
-
-    # Mako
-    try:
-        mako_items = get_mako_news()
-        all_items.extend(mako_items)
-        print("After Mako:", len(all_items))
-    except Exception as e:
-        print("Mako error:", e)
 
     # Israeli sites
     try:
