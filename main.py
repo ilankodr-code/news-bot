@@ -31,6 +31,8 @@ def translate_to_hebrew(text):
 
     text = strip_html(text)
 
+    text = re.sub(r"\([A-Z0-9\.\: ]+\)", "", text)
+
     if any("\u0590" <= c <= "\u05FF" for c in text):
         return text
 
@@ -813,6 +815,7 @@ def get_analyst_recommendation(ticker):
 # עיצוב הודעה
 # =========================
 def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=None, price_target=None, tickers=None, reasons=None, analyst_data=None, summary=""):
+    
     flag = "🇮🇱" if ticker in ["בנקים", "ביטוח", "דלק", "שוק"] else get_flag(ticker)
     
     if tickers:
@@ -848,6 +851,7 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
         summary_line = f"\n📝 {html.escape(shorten(translated_summary, 220))}"
 
     return (
+        f"\u202B"
         f"🚨 <b>{flag} {ticker_display}</b>\n\n"
         f"📰 <b>{short_title}</b>"
         f"{summary_line}"
@@ -855,6 +859,7 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
         f"{source_line}"
         f"{quote_line}\n"
         f"🔗 <a href=\"{safe_link}\">לקריאת הכתבה</a>"
+        f"\u202C"
     )
         
 # =========================
