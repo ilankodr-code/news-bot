@@ -580,7 +580,7 @@ def detect_multiple_tickers(text):
 
 
 def get_maariv_news():
-    print("ENTER get_maariv_news")
+    print("Checking Maariv...")
     url = "https://www.maariv.co.il/tags/שוק-ההון"
     items = []
 
@@ -619,6 +619,7 @@ def get_maariv_news():
     return items
 
 def get_walla_news():
+    print("Checking Walla...")
     url = "https://finance.walla.co.il/"
     items = []
 
@@ -656,6 +657,7 @@ def get_walla_news():
     return items
 
 def get_mako_news():
+    print("Checking Mako...")
     url = "https://www.mako.co.il/Tagit/שוק+ההון"
     items = []
 
