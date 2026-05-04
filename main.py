@@ -580,6 +580,7 @@ def detect_multiple_tickers(text):
 
 
 def get_maariv_news():
+    print("ENTER get_maariv_news")
     url = "https://www.maariv.co.il/tags/שוק-ההון"
     items = []
 
