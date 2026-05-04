@@ -90,8 +90,8 @@ IL_COMPANIES = {
         "aliases": ["בנק לאומי", "לאומי", "לאומי למשכנתאות", "leumi", "bank leumi"]
     },
     "POLI": {
-        "queries": ['"בנק הפועלים"', '"הפועלים"', '"פועלים"', '"Bank Hapoalim"', '"Hapoalim"', '"Poalim"'],
-        "aliases": ["בנק הפועלים", "הפועלים", "פועלים", "hapoalim", "poalim", "bank hapoalim"]
+        "queries": ["בנק הפועלים", "הפועלים", "hapoalim", "poalim", "bank hapoalim"],
+        "aliases": ["בנק הפועלים", "הפועלים", "hapoalim", "poalim", "bank hapoalim"]
     },
     "HARL": {
         "queries": ['"הראל"', '"הראל השקעות"', '"הראל ביטוח"', '"קבוצת הראל"', '"Harel"'],
