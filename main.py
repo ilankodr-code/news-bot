@@ -999,7 +999,7 @@ def get_globes_news():
 
 def get_sponser_news():
     print("Checking Sponser...")
-    url = "https://www.sponser.co.il/Content_rss.aspx"
+    url = "https://www.sponser.co.il/rss"
     feed = parse_feed(url)
     print("Sponser entries:", len(feed.entries))
     items = []
