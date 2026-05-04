@@ -29,14 +29,27 @@ def translate_to_hebrew(text):
     if not text:
         return ""
 
+    text = strip_html(text)
+
     if any("\u0590" <= c <= "\u05FF" for c in text):
         return text
 
-    if translator is None:
-        return text
-
     try:
-        return translator.translate(text, dest="he").text
+        url = "https://translate.googleapis.com/translate_a/single"
+        params = {
+            "client": "gtx",
+            "sl": "auto",
+            "tl": "he",
+            "dt": "t",
+            "q": text
+        }
+
+        res = requests.get(url, params=params, timeout=10)
+        data = res.json()
+
+        translated = "".join(part[0] for part in data[0] if part[0])
+        return translated.strip()
+
     except Exception as e:
         print("Translation error:", e)
         return text
