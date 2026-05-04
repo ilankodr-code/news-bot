@@ -589,6 +589,7 @@ def get_maariv_news():
         soup = BeautifulSoup(res.text, "html.parser")
 
         articles = soup.select("a[href]")
+        print("Maariv links found:", len(articles))
 
         for a in articles[:20]:
             title = a.get_text(strip=True)
