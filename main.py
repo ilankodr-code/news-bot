@@ -832,12 +832,9 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
 
     translated_summary = translate_to_hebrew(clean_summary)
 
-    clean_title_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_title.lower())
-    clean_summary_for_compare = re.sub(r"[^a-zA-Z0-9א-ת ]", "", translated_summary.lower())
-
-    if clean_title_for_compare and clean_title_for_compare in clean_summary_for_compare:
+    if translated_title and translated_title in translated_summary:
         translated_summary = ""
-
+    
     short_title = html.escape(shorten(translated_title, 160))
     safe_link = html.escape(link, quote=True)
     safe_source = html.escape(source) if source else ""
