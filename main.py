@@ -857,12 +857,12 @@ def format_msg(ticker, title, published, link, source="", signal="HOLD", quote=N
             
     summary_line = ""
     if translated_summary:
-        summary_line = f"\n📝 {html.escape(shorten(translated_summary, 220))}"
+        summary_line = f"\n\n📝 <b>סיכום:</b>\n{html.escape(shorten(translated_summary, 120))}"
 
     return (
         f"\u202B"
         f"🚨 <b>{flag} {ticker_display}</b>\n\n"
-        f"📰 <b>{short_title}</b>"
+        f"📰 <b>{short_title}</b>\n"
         f"{summary_line}"
         f"\n🕒 <i>{clean_time_str(published)}</i>"
         f"{source_line}"
