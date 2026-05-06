@@ -1079,12 +1079,33 @@ def get_israeli_site_news():
 
                     title = getattr(entry, "title", "").strip()
                     raw_summary = getattr(entry, "summary", "")
+
+                    clean_title = re.sub(r"[^a-zA-Z0-9א-ת ]", "", title.lower())
+                    clean_summary = re.sub(r"[^a-zA-Z0-9א-ת ]", "", strip_html(raw_summary).lower())
+
+                    # ❌ כותרת קצרה מדי
+                    if len(clean_title.split()) <= 3:
+                        continue
+
+                    # ❌ סיכום זהה לכותרת
+                    if clean_title == clean_summary:
+                        continue
+
+                    # ❌ "שם חברה - אתר"
+                    if re.match(r"^[א-תa-zA-Z ]+ - [א-תa-zA-Z ]+$", title):
+                        continue
+
                     summary = strip_html(raw_summary)
                     summary = summary[:300]
+
                     link = getattr(entry, "link", "").strip()
                     published = normalize_time(entry)
 
                     if not title or not link:
+                        continue
+
+                    full_text = f"{title} {summary}".lower()
+                    if not company_is_relevant_israel(ticker, full_text):
                         continue
 
                     full_text = f"{title} {summary}".lower()
