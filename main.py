@@ -258,6 +258,14 @@ JUNK_KEYWORDS = [
     "best stocks",
     "stocks to buy",
     "dividend stocks",
+    "אופציות",
+    "נגזרים",
+    "מדור אופציות",
+    "P ",
+    "C ",
+    "CALL",
+    "PUT",
+    "STRIKE",
 ]
 
 NEGATIVE_KEYWORDS = [
