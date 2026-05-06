@@ -907,6 +907,11 @@ def get_yahoo_news_for_ticker(ticker):
         sent_links.add(uid)
         sent_titles.add(title_uid)
 
+        full_text = f"{title} {summary}".lower()
+    
+        if not is_company_relevant(ticker, full_text):
+            continue
+        
         items.append({
             "ticker": ticker,
             "title": title,
