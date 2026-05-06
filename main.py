@@ -135,9 +135,9 @@ IL_COMPANIES = {
         "queries": ['"טבע"', '"טבע תעשיות"', '"טבע תעשיות פרמצבטיות"', '"Teva"'],
         "aliases": ["טבע", "טבע תעשיות", "טבע תעשיות פרמצבטיות", "teva"]
     },
-    "MLSR": {
-        "queries": ['"מליסרון"', '"קבוצת מליסרון"', '"Melisron"'],
-        "aliases": ["מליסרון", "קבוצת מליסרון", "melisron"]
+    "MGOR": {
+        "queries": ['"מגה אור"', '"מגה אור החזקות"', '"Mega Or"', '"Mega Or Holdings"'],
+        "aliases": ["מגה אור", "מגה אור החזקות", "mega or", "mega or holdings"]
     },
 }
 
@@ -170,7 +170,7 @@ IL_YF_TICKERS = {
     "AZRG": "AZRG.TA",
     "FIBI": "FIBI.TA",
     "TEVA": "TEVA",
-    "MLSR": "MLSR.TA",
+    "MGOR": "MGOR.TA",
 }
 
 # לוגואים / תמונות
@@ -197,6 +197,7 @@ COMPANY_IMAGES = {
     "FIBI": "https://logo.clearbit.com/fibi.co.il",
     "TEVA": "https://logo.clearbit.com/teva.com",
     "MLSR": "https://logo.clearbit.com/melisron.com",
+    "MGOR": "https://logo.clearbit.com/megaor.co.il",
 }
 
 STRICT_COMPANY_PATTERNS = {
